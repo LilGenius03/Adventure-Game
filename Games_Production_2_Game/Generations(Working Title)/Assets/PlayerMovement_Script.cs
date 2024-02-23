@@ -26,7 +26,6 @@ public class PlayerMovement_Script : MonoBehaviour
     void Update()
     {
         moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
     }
 
     private void FixedUpdate()

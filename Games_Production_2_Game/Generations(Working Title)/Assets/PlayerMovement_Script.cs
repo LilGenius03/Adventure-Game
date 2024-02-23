@@ -26,7 +26,7 @@ public class PlayerMovement_Script : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = moveDir * Speed * Time.deltaTime;
-        transform.Rotate(0, 0,-Input.GetAxis("Horizontal"));
+        //transform.Rotate(0, 0,-Input.GetAxis("Horizontal"));
 
     }
 }

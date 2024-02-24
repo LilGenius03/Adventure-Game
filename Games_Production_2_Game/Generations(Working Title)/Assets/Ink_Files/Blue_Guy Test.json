@@ -1,0 +1,1 @@
+﻿{"inkVersion":21,"root":[["^Go Away","\n",{"->":"NPC_2_Choice_1"},["done",{"#f":5,"#n":"g-0"}],null],"done",{"NPC_2_Choice_1":[["ev","str","^Ok","/str","/ev",{"*":".^.c-0","flg":4},{"c-0":["\n",{"->":"NPC_2_result_1"},{"#f":5}]}],{"#f":1}],"NPC_2_result_1":["^Don't piss me off!","\n","end",{"#f":1}],"#f":1}],"listDefs":{}}

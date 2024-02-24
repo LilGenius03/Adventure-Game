@@ -1,19 +1,18 @@
--> main
-
-=== main ===
+-> NPC_1_Choice_1
+=== NPC_1_Choice_1 ===
 Hello Friend
 I love the color Red
 Can I join your party?
 +[Yes]
-->result_1
+->NPC_1_result_1
 +[No]
--> result_2
+-> NPC_1_result_2
 
 
-=== result_1 ===
+=== NPC_1_result_1 ===
 Yipee!
 -> END
 
-=== result_2 ===
+=== NPC_1_result_2 ===
 Well maybe next time :(
 -> END

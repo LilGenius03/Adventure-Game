@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,27 +12,66 @@ public class PlayerMovement_Script : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveDir;
     [SerializeField] private GameObject Map;
+    public KeyCode interact;
+    public KeyCode Submit;
 
     [Header("Bools")]
     private bool MapOpen;
+    public bool keyPressed;
+    public bool SubmitKeyPressed;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Map.SetActive(false);
         MapOpen = false;
+        keyPressed = false;
+        SubmitKeyPressed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        if(Input.GetKeyDown(interact) && keyPressed == false)
+        {
+            Debug.Log("F");
+            keyPressed = true;
+        }
+
+        else
+        {
+            keyPressed = false;
+        }
+
+        if(Input.GetKeyDown(Submit) && SubmitKeyPressed == false)
+        {
+            Debug.Log("Space");
+            SubmitKeyPressed = true;
+        }
+
+        else
+        {
+            SubmitKeyPressed = false;
+        }
     }
 
     private void FixedUpdate()
     {
         rb.velocity = moveDir * Speed * Time.deltaTime;
         //transform.Rotate(0, 0,-Input.GetAxis("Horizontal"));
+
+        if(Dialogue_Manager.GetInstance().dialogueIsPlaying)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
+
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+        }
 
         if(Input.GetKeyDown(KeyCode.M) && MapOpen == false)
         {

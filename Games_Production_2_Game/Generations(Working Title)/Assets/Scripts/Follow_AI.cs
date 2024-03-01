@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Follow_AI : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class Follow_AI : MonoBehaviour
     public void FollowPlayer()
     {
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+
+        if(transform.position.magnitude > 0.1)
+        {
+            float angle = Mathf.Sin(Time.time * rotationSpeed) * 8;
+
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+       
     }
 
     

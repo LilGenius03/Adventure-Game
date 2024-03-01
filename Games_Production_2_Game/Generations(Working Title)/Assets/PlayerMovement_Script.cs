@@ -7,6 +7,7 @@ public class PlayerMovement_Script : MonoBehaviour
 {
     [Header("Settings")]
     public float Speed;
+    [SerializeField] float rotationSpeed;
 
     [Header("References")]
     private Rigidbody2D rb;
@@ -60,7 +61,13 @@ public class PlayerMovement_Script : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = moveDir * Speed * Time.deltaTime;
-        //transform.Rotate(0, 0,-Input.GetAxis("Horizontal"));
+
+        if(rb.velocity.sqrMagnitude > 0.1)
+        {
+            float angle = Mathf.Sin(Time.time * rotationSpeed) * 8;
+
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
 
         if(Dialogue_Manager.GetInstance().dialogueIsPlaying)
         {

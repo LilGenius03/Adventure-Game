@@ -10,10 +10,11 @@ public class Follow_AI : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
+    //[SerializeField] float Distance;
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -24,7 +25,8 @@ public class Follow_AI : MonoBehaviour
 
     public void FollowPlayer()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), rotationSpeed * Time.deltaTime);
-        transform.position = transform.forward * Time.deltaTime * moveSpeed;
+        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
     }
+
+    
 }

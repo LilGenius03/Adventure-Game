@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Job")]
-public class JobData : ScriptableObject
+[CreateAssetMenu(menuName = "Weapon")]
+public class WeaponData : ScriptableObject
 {
-    public string jobName;
+    public string weaponName, weaponType;
+    private int[] stats = new int[12];
     public int offence, defence, accuracy, evasion, luck, speed, energyOffence, energyDefence, support, stamina, vigour, vitality;
-    public WeaponData[] weapon;
-    public TechData[] tech;
+    public int statusEffect;
 }

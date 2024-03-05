@@ -5,9 +5,12 @@ using UnityEngine;
 //[System.Serializable]
 public class PartyManager
 {
+    public CharacterData talos;
+    public List<CharacterData> party;
+
     public PartyManager()
     {
-
+        //party.Add(talos);
     }
     
     // Start is called before the first frame update

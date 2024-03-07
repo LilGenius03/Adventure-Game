@@ -34,6 +34,20 @@ public class Follow_AI : MonoBehaviour
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
+        
+        if(Dialogue_Manager.GetInstance().dialogueIsPlaying)
+        {
+            moveSpeed = 0;
+            rotationSpeed = 0;
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0, 0));
+            return;
+        }
+
+        else
+        {
+            moveSpeed = 2f;
+            rotationSpeed = 10f;
+        }
        
     }
 

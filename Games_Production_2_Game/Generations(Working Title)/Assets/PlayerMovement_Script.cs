@@ -72,12 +72,15 @@ public class PlayerMovement_Script : MonoBehaviour
         if(Dialogue_Manager.GetInstance().dialogueIsPlaying)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            rotationSpeed = 0f;
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0,0));
             return;
         }
 
         else
         {
             rb.constraints = RigidbodyConstraints2D.None;
+            rotationSpeed = 10f;
         }
 
         if(Input.GetKeyDown(KeyCode.M) && MapOpen == false)

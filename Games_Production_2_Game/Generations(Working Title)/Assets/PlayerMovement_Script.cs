@@ -48,7 +48,6 @@ public class PlayerMovement_Script : MonoBehaviour
 
         if(Input.GetKeyDown(Submit) && SubmitKeyPressed == false)
         {
-            Debug.Log("Space");
             SubmitKeyPressed = true;
         }
 

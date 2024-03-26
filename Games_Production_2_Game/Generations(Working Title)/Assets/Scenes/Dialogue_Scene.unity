@@ -1614,6 +1614,8 @@ MonoBehaviour:
   dialogueText: {fileID: 1004493472}
   displayNameText: {fileID: 919664060}
   portraitAnimator: {fileID: 216210254}
+  continueIcon: {fileID: 1681951352}
+  typingSpeed: 0.04
   Player: {fileID: 1805289433}
   choices:
   - {fileID: 1590753280}

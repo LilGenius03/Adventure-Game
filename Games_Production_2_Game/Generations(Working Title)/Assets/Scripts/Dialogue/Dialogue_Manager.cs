@@ -12,11 +12,16 @@ public class Dialogue_Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
+    [SerializeField] private GameObject continueIcon;
 
+    [Header("Settings")]
+    [SerializeField] private float typingSpeed = 0.04f;
 
 
     private Story currentStory;
     public bool dialogueIsPlaying {  get; private set; }
+
+    private bool canContinueToNextLine = false;
 
     [Header("PlayerRef")]
     private PlayerMovement_Script playerMovement_Script;
@@ -25,6 +30,7 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("Choices")]
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+    private Coroutine displayLineCoroutine;
 
     private static Dialogue_Manager instance;
     private const string SPEAKER_TAG = "speaker";
@@ -71,9 +77,45 @@ public class Dialogue_Manager : MonoBehaviour
             return;
         }
 
-        if(currentStory.currentChoices.Count == 0 && playerMovement_Script.SubmitKeyPressed)
+        if(canContinueToNextLine == true && currentStory.currentChoices.Count == 0 && playerMovement_Script.SubmitKeyPressed)
         {
             ContinueStory();
+        }
+    }
+
+    private IEnumerator DisplayLine(string line)
+    {
+        //empty the dialogue text
+        dialogueText.text = "";
+
+        // hide items while text is typing
+        continueIcon.SetActive(false);
+        HideChoices();
+
+        canContinueToNextLine = false;
+
+        foreach(char letter in line.ToCharArray())
+        {
+            if(playerMovement_Script.SubmitKeyPressed)
+            {
+                dialogueText.text = line;
+                break;
+            }
+
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        //actions to take after the entire line has finished displaying
+        continueIcon.SetActive(true);
+        canContinueToNextLine = true;
+    }
+
+    private void HideChoices()
+    {
+        foreach(GameObject choiceButton in choices)
+        {
+            choiceButton.SetActive(false);
         }
     }
 
@@ -103,7 +145,11 @@ public class Dialogue_Manager : MonoBehaviour
         if (currentStory.canContinue)
         {
             //set text for the current dialogue line
-            dialogueText.text = currentStory.Continue();
+            if(displayLineCoroutine != null )
+            {
+                StopCoroutine(displayLineCoroutine);
+            }
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
             // display choices, if any, for this dialogue line
             DisplayChoices();
             //handles tags
@@ -187,9 +233,14 @@ public class Dialogue_Manager : MonoBehaviour
 
     public void MakeChoice(int choiceIndex)
     {
-        //Execute choice made
-        currentStory.ChooseChoiceIndex(choiceIndex);
+        if(canContinueToNextLine)
+        {
+            //Execute choice made
+            currentStory.ChooseChoiceIndex(choiceIndex);
 
-        ContinueStory();
+            ContinueStory();
+        }
     }
+
+       
 }

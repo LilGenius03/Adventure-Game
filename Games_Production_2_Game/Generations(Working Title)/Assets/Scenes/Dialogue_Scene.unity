@@ -1618,7 +1618,7 @@ MonoBehaviour:
   typingSpeed: 0.04
   defaultAudioInfo: {fileID: 11400000, guid: 6f14cfba42366bf4b820ca443816687d, type: 2}
   audioInfos: []
-  makePredictable: 0
+  makePredictable: 1
   Player: {fileID: 1805289433}
   choices:
   - {fileID: 1590753280}

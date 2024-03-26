@@ -1,0 +1,1 @@
+VAR party_members = ""

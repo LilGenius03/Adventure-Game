@@ -13,7 +13,7 @@ public class Dialogue_Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
 
-    private Animator layoutAnimator;
+
 
     private Story currentStory;
     public bool dialogueIsPlaying {  get; private set; }
@@ -29,7 +29,6 @@ public class Dialogue_Manager : MonoBehaviour
     private static Dialogue_Manager instance;
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
-    private const string LAYOUT_TAG = "layout";
 
     private void Awake()
     {
@@ -53,7 +52,6 @@ public class Dialogue_Manager : MonoBehaviour
         dialoguePanel.SetActive(false);
         // get the layout animator
 
-        layoutAnimator = dialoguePanel.GetComponent<Animator>();
 
         // get all of the choices text
         choicesText = new TextMeshProUGUI[choices.Length];
@@ -84,7 +82,6 @@ public class Dialogue_Manager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
-
         // reset portrait, layout and speaker
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -144,9 +141,6 @@ public class Dialogue_Manager : MonoBehaviour
                 case PORTRAIT_TAG:
                     portraitAnimator.Play(tagValue);
                     break;
-                case LAYOUT_TAG:
-                    layoutAnimator.Play(tagValue);
-                    break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
@@ -195,6 +189,7 @@ public class Dialogue_Manager : MonoBehaviour
     {
         //Execute choice made
         currentStory.ChooseChoiceIndex(choiceIndex);
+
         ContinueStory();
     }
 }

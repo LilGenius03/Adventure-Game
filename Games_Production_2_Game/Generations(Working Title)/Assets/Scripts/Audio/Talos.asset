@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37abd629b61cd64c937fc76fdddea5d, type: 3}
   m_Name: Talos
   m_EditorClassIdentifier: 
-  ID: 
-  dialogueTypingSoundClips: []
+  ID: Talos
+  dialogueTypingSoundClips:
+  - {fileID: 8300000, guid: 48c6f43b128848847b9cf762a5796d18, type: 3}
   frequencyLevel: 2
   minPitch: 0.5
-  maxPitch: 3
+  maxPitch: 2
   stopAudioSource: 0

@@ -122,8 +122,9 @@ public class Dialogue_Manager : MonoBehaviour
 
     private IEnumerator DisplayLine(string line)
     {
-        //empty the dialogue text
-        dialogueText.text = "";
+        //set the text to the full line, but set the visible characters to 0
+        dialogueText.text = line;
+        dialogueText.maxVisibleCharacters = 0;
         // hide items while text is typing
         continueIcon.SetActive(false);
         HideChoices();
@@ -132,8 +133,8 @@ public class Dialogue_Manager : MonoBehaviour
 
         foreach(char letter in line.ToCharArray())
         {
-            PlayDialogueSound(letter, dialogueText.text[letter]);
-            dialogueText.text += letter;
+            PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
+            dialogueText.maxVisibleCharacters++;
             yield return new WaitForSeconds(typingSpeed);
         }
 

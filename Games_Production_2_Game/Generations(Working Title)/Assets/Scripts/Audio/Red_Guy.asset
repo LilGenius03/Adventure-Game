@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37abd629b61cd64c937fc76fdddea5d, type: 3}
   m_Name: Red_Guy
   m_EditorClassIdentifier: 
-  ID: 
-  dialogueTypingSoundClips: []
+  ID: Red_Guy
+  dialogueTypingSoundClips:
+  - {fileID: 8300000, guid: c67518bfafe8b4c43b28dc9dd05d5ec1, type: 3}
   frequencyLevel: 2
   minPitch: 0.5
-  maxPitch: 3
+  maxPitch: 2
   stopAudioSource: 0

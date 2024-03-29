@@ -1616,9 +1616,21 @@ MonoBehaviour:
   portraitAnimator: {fileID: 216210254}
   continueIcon: {fileID: 1681951352}
   typingSpeed: 0.04
+  globalsInkFile:
+    inkAsset: {fileID: 102900000, guid: 3ae6cb1fef289764f91fd58a7f8821a7, type: 3}
+    jsonAssetDirectory: {fileID: 0}
+    jsonAsset: {fileID: 0}
+    unhandledCompileErrors: []
+    recursiveIncludeErrorPaths: []
+    errors: []
+    warnings: []
+    todos: []
+    masterInkAssets: []
+    localIncludePaths: []
+    includes: []
   defaultAudioInfo: {fileID: 11400000, guid: 6f14cfba42366bf4b820ca443816687d, type: 2}
   audioInfos: []
-  makePredictable: 1
+  makePredictable: 0
   Player: {fileID: 1805289433}
   choices:
   - {fileID: 1590753280}

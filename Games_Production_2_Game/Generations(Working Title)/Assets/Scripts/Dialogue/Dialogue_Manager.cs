@@ -4,8 +4,7 @@ using UnityEngine;
 using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
-using JetBrains.Annotations;
+using Ink.UnityIntegration;
 
 public class Dialogue_Manager : MonoBehaviour
 {
@@ -18,6 +17,9 @@ public class Dialogue_Manager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float typingSpeed = 0.04f;
+
+    [Header("Globals Ink File")]
+    [SerializeField] private InkFile globalsInkFile;
 
     [Header("Audio")]
     private AudioSource audioSource;
@@ -45,6 +47,7 @@ public class Dialogue_Manager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string AUDIO_TAG = "audio";
+    private Dialogue_Variables dialogueVariables;
     private void Awake()
     {
        if (instance != null)
@@ -55,7 +58,9 @@ public class Dialogue_Manager : MonoBehaviour
 
        playerMovement_Script = Player.GetComponent<PlayerMovement_Script>();
        audioSource = this.gameObject.AddComponent<AudioSource>();
-        currentAudioInfo = defaultAudioInfo;
+       currentAudioInfo = defaultAudioInfo;
+
+        dialogueVariables = new Dialogue_Variables(globalsInkFile.filePath);
     }
 
     public static Dialogue_Manager GetInstance()
@@ -203,6 +208,8 @@ public class Dialogue_Manager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
+
+        dialogueVariables.StartListening(currentStory);
         // reset portrait, layout and speaker
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -217,6 +224,7 @@ public class Dialogue_Manager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        dialogueVariables.StopListening(currentStory);
 
         //go back to default audio
         SetCurrentAudioInfo(defaultAudioInfo.ID);

@@ -5,6 +5,7 @@ using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
 using Ink.UnityIntegration;
+using Unity.VisualScripting;
 
 public class Dialogue_Manager : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("PlayerRef")]
     private PlayerMovement_Script playerMovement_Script;
     [SerializeField] GameObject Player;
+    private Follow_AI follow;
 
     [Header("Choices")]
     [SerializeField] private GameObject[] choices;
@@ -47,6 +49,7 @@ public class Dialogue_Manager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string AUDIO_TAG = "audio";
+    private const string PARTY_TAG = "PartyMember";
     private Dialogue_Variables dialogueVariables;
     private void Awake()
     {
@@ -59,6 +62,7 @@ public class Dialogue_Manager : MonoBehaviour
        playerMovement_Script = Player.GetComponent<PlayerMovement_Script>();
        audioSource = this.gameObject.AddComponent<AudioSource>();
        currentAudioInfo = defaultAudioInfo;
+       follow.GetComponent<Follow_AI>();
 
         dialogueVariables = new Dialogue_Variables(globalsInkFile.filePath);
     }
@@ -283,6 +287,9 @@ public class Dialogue_Manager : MonoBehaviour
                     SetCurrentAudioInfo(tagValue);
                     break;
                 default:
+                case PARTY_TAG:
+                    follow.FollowPlayer();
+                    break;
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
             }

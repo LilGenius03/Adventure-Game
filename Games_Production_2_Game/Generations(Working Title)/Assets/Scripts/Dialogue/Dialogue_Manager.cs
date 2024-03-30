@@ -337,5 +337,19 @@ public class Dialogue_Manager : MonoBehaviour
         }
     }
 
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        Ink.Runtime.Object variableValue = null;
+        dialogueVariables.variables.TryGetValue(variableName, out variableValue);
+
+        if(variableValue = null)
+        {
+            Debug.LogWarning("Ink Variable was found to be null: " + variableName);
+
+        }
+
+        return variableValue;
+    }
+
        
 }

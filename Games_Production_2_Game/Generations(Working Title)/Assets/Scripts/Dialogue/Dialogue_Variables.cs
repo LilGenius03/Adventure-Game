@@ -6,7 +6,7 @@ using System.IO;
 
 public class Dialogue_Variables
 {
-    private Dictionary<string, Ink.Runtime.Object> variables;
+    public Dictionary<string, Ink.Runtime.Object> variables { get; private set; }
 
     public Dialogue_Variables(string globalsFilePath)
     {
@@ -27,6 +27,8 @@ public class Dialogue_Variables
 
     public void StartListening(Story story) 
     {
+        // its important that VariablesToStory is before assigning the listener!
+        VariablesToStory(story);
         story.variablesState.variableChangedEvent += VariableChanged;
     }
 
@@ -37,6 +39,20 @@ public class Dialogue_Variables
 
     private void VariableChanged(string PartyStatus, Ink.Runtime.Object value)
     {
-        Debug.Log("Variable changed: " + PartyStatus + value);
+        //only maintain variables that were initialized from the globals ink file
+
+        if(variables.ContainsKey(PartyStatus))
+        {
+            variables.Remove(PartyStatus);
+            variables.Add(PartyStatus, value);
+        }
+    }
+
+    private void VariablesToStory(Story story)
+    {
+        foreach(KeyValuePair<string, Ink.Runtime.Object> variable in variables)
+        {
+            story.variablesState.SetGlobal(variable.Key, variable.Value);
+        }
     }
 }

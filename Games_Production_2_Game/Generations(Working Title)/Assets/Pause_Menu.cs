@@ -12,6 +12,7 @@ public class Pause_Menu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private AudioSource pauseMusic;
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private GameObject DialogueCanvas;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Pause_Menu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         pauseMusic.Play();
+        DialogueCanvas.SetActive(false);
     }
 
    public void Play()
@@ -30,6 +32,7 @@ public class Pause_Menu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         pauseMusic.Stop();
+        DialogueCanvas.SetActive(true);
     }
 
     public void Quit()
@@ -43,6 +46,7 @@ public class Pause_Menu : MonoBehaviour
     {
         optionsMenu.SetActive(true);
         pauseMenu.SetActive(false);
+        DialogueCanvas.SetActive(false);
         Time.timeScale = 0f;
     }
 
@@ -56,6 +60,7 @@ public class Pause_Menu : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         pauseMenu.SetActive(false);
+        DialogueCanvas.SetActive(true);
         Time.timeScale = 1f;
         pauseMusic.Stop();
     }

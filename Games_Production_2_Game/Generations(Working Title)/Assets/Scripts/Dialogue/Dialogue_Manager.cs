@@ -38,7 +38,7 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("PlayerRef")]
     private PlayerMovement_Script playerMovement_Script;
     [SerializeField] GameObject Player;
-    private Follow_AI follow;
+    //private Follow_AI follow;
 
     [Header("Choices")]
     [SerializeField] private GameObject[] choices;
@@ -62,7 +62,7 @@ public class Dialogue_Manager : MonoBehaviour
        playerMovement_Script = Player.GetComponent<PlayerMovement_Script>();
        audioSource = this.gameObject.AddComponent<AudioSource>();
        currentAudioInfo = defaultAudioInfo;
-       follow.GetComponent<Follow_AI>();
+       //follow.GetComponent<Follow_AI>();
 
         dialogueVariables = new Dialogue_Variables(globalsInkFile.filePath);
     }
@@ -287,9 +287,9 @@ public class Dialogue_Manager : MonoBehaviour
                     SetCurrentAudioInfo(tagValue);
                     break;
                 default:
-                case PARTY_TAG:
-                    follow.FollowPlayer();
-                    break;
+               // case PARTY_TAG:
+                    //follow.FollowPlayer();
+                    //break;
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
             }

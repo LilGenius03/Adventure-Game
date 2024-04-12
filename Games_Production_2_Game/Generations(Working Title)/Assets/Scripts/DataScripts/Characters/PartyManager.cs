@@ -5,8 +5,8 @@ using UnityEngine;
 //[System.Serializable]
 public class PartyManager
 {
-    public CharacterData talos;
-    public List<CharacterData> party;
+    //public CharacterData talos;
+    public List<CharacterData> members;
 
     public PartyManager()
     {

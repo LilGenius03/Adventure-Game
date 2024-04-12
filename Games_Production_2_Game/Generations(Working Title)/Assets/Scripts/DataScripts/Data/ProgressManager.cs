@@ -7,6 +7,10 @@ public class ProgressManager
 {
     public int currentScene = 0;
 
+    public List<bool> chest;
+    public List<bool> quest;
+    public List<bool> choice;
+
     public ProgressManager()
     {
 

@@ -15,6 +15,7 @@ public class GameDataManager : MonoBehaviour
     public PartyManager party;
     public InventoryManager inventory;
     public ProgressManager progress;
+    public EncounterManager encounter;
     
     public GameData gameData;
     public static GameDataManager instance;

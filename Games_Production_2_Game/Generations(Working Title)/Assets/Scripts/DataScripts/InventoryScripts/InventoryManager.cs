@@ -2,8 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TechData : MonoBehaviour
+//[System.Serializable]
+public class InventoryManager
 {
+    public List<WeaponData> weaponry;
+    public List<ArmourData> armour;
+    public List<ItemData> items;
+    public int coins;
+    
+    public InventoryManager()
+    {
+
+    }
+    
     // Start is called before the first frame update
     void Start()
     {

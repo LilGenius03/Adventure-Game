@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class BattleManager : MonoBehaviour
     public InventoryManager inventory;
     public List<CombattantScript> combattants;
     public List<CombattantScript> initiative;
+    public EnemyHandler enemyHandler;
+    public Transform[] characterPos;
+    public Transform[] enemyPos;
 
     //public static BattleManager battle;
     public BattleMenu battleMenu;
@@ -30,15 +34,20 @@ public class BattleManager : MonoBehaviour
         inventory = GameDataManager.instance.inventory;
         encounter = GameDataManager.instance.encounter;
 
-        foreach(CharacterData character in party.members)
+        for(int i = 0; i < party.members.Count; i++)
         {
-            character.RollInitiative();
-            combattants.Add(character.combattantScript);
+            party.tempCharacters.Add(Instantiate(party.characters[i], characterPos[i]));
+            party.tempMembers.Add(party.tempCharacters[i].GetComponent<CharacterData>());
+            party.tempMembers[i].StartBattle();
+            //party.members[i].BattlePos(characterPos[i]);
         }
-        foreach(EnemyData enemy in encounter.enemies)
+        
+        for(int i = 0; i < encounter.enemies.Count; i++)
         {
-            enemy.RollInitiative();
-            combattants.Add(enemy.combattantScript);
+            encounter.tempMonsters.Add(Instantiate(encounter.monsters[i], enemyPos[i]));
+            encounter.tempEnemies.Add(encounter.tempMonsters[i].GetComponent<EnemyData>());
+            encounter.tempMonsters[i].GetComponent<EnemyData>().StartBattle();
+            //encounter.enemies[i].BattlePos(enemyPos[i]);
         }
 
         RollInitiative();
@@ -54,8 +63,6 @@ public class BattleManager : MonoBehaviour
 
             if(currentTurn < initiative.Count)
             {
-                currentTurn++;
-
                 if(initiative[currentTurn].gameObject.GetComponent<CharacterData>())
                 {
                     CharacterTurn(initiative[currentTurn].gameObject.GetComponent<CharacterData>());
@@ -64,6 +71,8 @@ public class BattleManager : MonoBehaviour
                 {
                     EnemyTurn(initiative[currentTurn].gameObject.GetComponent<EnemyData>());
                 }
+
+                currentTurn++;
             }
             else
             {
@@ -75,7 +84,21 @@ public class BattleManager : MonoBehaviour
     public void RollInitiative()
     {
         initiative.Clear();
+        combattants.Clear();
         
+        foreach(CharacterData character in party.tempMembers)
+        {
+            character.RollInitiative();
+            combattants.Add(character.combattantScript);
+            Debug.Log(combattants.Count);
+        }
+
+        foreach(EnemyData enemy in encounter.tempEnemies)
+        {
+            enemy.RollInitiative();
+            combattants.Add(enemy.combattantScript);
+        }
+
         foreach(CombattantScript combattant in combattants)
         {
             combattant.RollInitiative();
@@ -97,7 +120,6 @@ public class BattleManager : MonoBehaviour
             combattants.Remove(currentFastest);
         } while(combattants.Count > 0);
 
-        combattants = initiative;
         currentTurn = 0;
         nextTurn = true;
     }
@@ -117,15 +139,14 @@ public class BattleManager : MonoBehaviour
             int charNo = 0;
             do
             {
-                if(character == party.members[charNo])
+                if(character == party.tempMembers[charNo])
                 {
                     battleMenu.CharacterTurn(charNo);
                     matched = true;
                 }
-                else if(charNo >= party.members.Count)
+                else if(charNo >= party.tempMembers.Count)
                 {
                     charNo = 0;
-                    currentTurn++;
                     nextTurn = true;
                     return;
                 }
@@ -138,7 +159,6 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            currentTurn++;
             nextTurn = true;
         }
     }
@@ -147,11 +167,32 @@ public class BattleManager : MonoBehaviour
     {
         if(enemy.HP > 0)
         {
+            Debug.Log(enemy.enemyName);
 
+            bool matched = false;
+            int charNo = 0;
+            do
+            {
+                if(enemy == encounter.tempEnemies[charNo])
+                {
+                    enemyHandler.EnemyTurn(charNo);
+                    matched = true;
+                }
+                else if(charNo >= encounter.tempEnemies.Count)
+                {
+                    charNo = 0;
+                    nextTurn = true;
+                    return;
+                }
+                else
+                {
+                    charNo++;
+                }
+
+            } while(!matched);
         }
 
-        currentTurn++;
-        nextTurn = true;
+        //nextTurn = true;
     }
 
     void WinEncounter()
@@ -173,7 +214,7 @@ public class BattleManager : MonoBehaviour
             inventory.coins += droppedCoins;
         }
         
-        foreach (CharacterData character in party.members)
+        foreach (CharacterData character in party.tempMembers)
         {
             
             if (character.HP > 0)
@@ -186,6 +227,8 @@ public class BattleManager : MonoBehaviour
                 }
                 character.LevelUp(exp);
             }
+
+            SceneManager.LoadScene(GameDataManager.instance.progress.currentScene);
         }
     }
 }

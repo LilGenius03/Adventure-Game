@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Job")]
+[System.Serializable]
 public class JobData : ScriptableObject
 {
     public string characterName, jobName;

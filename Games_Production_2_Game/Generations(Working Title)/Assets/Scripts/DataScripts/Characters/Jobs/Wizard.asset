@@ -12,74 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461838cc9ea28744fa9449d2d8079be5, type: 3}
   m_Name: Wizard
   m_EditorClassIdentifier: 
-  characterName: Template
-  jobName: Template
-  stats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  characterName: Merlin
+  jobName: Wizard
+  stats: fefffffffffffffffeffffffffffffffffffffff010000000200000002000000010000000100000002000000feffffff
   proficiency:
-  - Claw
   - Dagger
-  - Club
-  - Sword
   - Staff
-  - Spear
-  - Axe
-  - Hammer
-  - Scythe
-  - Flail
-  - Boomerang
-  - Bow
   resistance:
-  - Claw
-  - Dagger
-  - Club
-  - Sword
-  - Staff
-  - Spear
-  - Axe
-  - Hammer
-  - Scythe
-  - Flail
-  - Boomerang
-  - Bow
-  - Air
-  - Earth
   - Fire
-  - Water
-  - Lightning
   - Ice
-  - Poison
-  - Psychic
-  - Radiance
-  - Shadow
-  - Sound
-  - Force
   vulnerability:
-  - Claw
-  - Dagger
-  - Club
-  - Sword
-  - Staff
   - Spear
-  - Axe
-  - Hammer
   - Scythe
-  - Flail
-  - Boomerang
-  - Bow
-  - Air
-  - Earth
-  - Fire
-  - Water
-  - Lightning
-  - Ice
-  - Poison
-  - Psychic
-  - Radiance
-  - Shadow
-  - Sound
-  - Force
   techs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4bb288879faade94a965276d4e74e1e2, type: 2}

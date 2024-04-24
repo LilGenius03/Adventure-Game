@@ -1792,6 +1792,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: SaveFile
+  encounter: {fileID: 0}
+  battle: 0
 --- !u!4 &1298898970
 Transform:
   m_ObjectHideFlags: 0

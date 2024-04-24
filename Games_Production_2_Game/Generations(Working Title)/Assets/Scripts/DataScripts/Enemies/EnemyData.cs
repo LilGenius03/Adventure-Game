@@ -2,25 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class EnemyData : MonoBehaviour
 {
     public string enemyName;
     public CreatureData creatureData;
 
     public int[] overrideStats = new int[12];
-    private int[] baseStats = new int[12];
-    private int[] totalStats = new int[12];
-    private int[] augmentedStats = new int[12];
+    public int[] baseStats = new int[12];
+    public int[] totalStats = new int[12];
+    public int[] augmentedStats = new int[12];
 
-    public int level, maxBP, maxEP, maxHP, BP, EP, HP;
+    public int level, maxBP, maxEP, maxHP, BP, EP, HP, boost, sub;
     public List<string> proficiency;
     public List<string> resistance;
     public List<string> vulnerability;
+    public List<TechData> techs;
 
     public List<ItemData> drops;
     public List<float> rarity;
     public int coins;
     public CombattantScript combattantScript;
+
+    public Sprite battleSprite;
+    public SpriteRenderer spriteRenderer;
+    public GameObject summon;
+    public Transform summonPos;
 
     public int Offence()
     {
@@ -81,16 +88,87 @@ public class EnemyData : MonoBehaviour
     {
         return augmentedStats[11];
     }
+
+    public void StartBattle()
+    {
+        Debug.Log("Battle Started");
+        
+        //spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        
+        /*if(battle)
+        {
+            spriteRenderer.sprite = battleSprite;
+        }
+        else
+        {
+            spriteRenderer.sprite = overworldSprite;
+        }*/
+
+        /*stats.Add(baseStats);
+        stats.Add(statMods);
+        stats.Add(equipmentStats);
+        stats.Add(totalStats);
+        stats.Add(augmentedStats);*/
+
+        foreach(string item in creatureData.resistance)
+        {
+            resistance.Add(item);
+        }
+
+        foreach(string item in creatureData.vulnerability)
+        {
+            vulnerability.Add(item);
+        }
+
+        foreach(TechData item in creatureData.techs)
+        {
+            if (level >= item.level)
+            {
+                techs.Add(item);
+            }
+        }
+
+        for(int i = 0; i < 12; i++)
+        {
+            baseStats[i] = (5 + creatureData.stats[i]) * level;
+        }
+        baseStats[9] = baseStats[9] * 25;
+        baseStats[10] = baseStats[10] * 10;
+        baseStats[11] = baseStats[11] * 50;
+
+        for (int i = 0; i < 12; i++)
+        {
+            totalStats[i] = baseStats[i];
+            augmentedStats[i] = totalStats[i];
+            Debug.Log(baseStats[i]);
+            Debug.Log(totalStats[i]);
+            Debug.Log(augmentedStats[i]);
+        }
+        maxBP = totalStats[9];
+        maxEP = totalStats[10];
+        maxHP = totalStats[11];
+
+        HP = maxHP;
+        EP = maxEP;
+        BP = maxBP;
+    }
+
+    public void BattlePos(Transform battlePos)
+    {
+        //gameObject.transform.position = battlePos.position;
+    }
+
+    void Start()
+    {
+        /*spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+        spriteRenderer.sprite = battleSprite;*/
+    }
     
     public EnemyData(CreatureData creature, int lv)
     {
         creatureData = creature;
         level = lv;
-
-        foreach(string item in creatureData.proficiency)
-        {
-            proficiency.Add(item);
-        }
 
         foreach(string item in creatureData.resistance)
         {
@@ -139,10 +217,22 @@ public class EnemyData : MonoBehaviour
 
     public void RollInitiative()
     {
-        combattantScript.speedStat = totalStats[6];
+        combattantScript.speedStat = totalStats[5];
     }
 
-    public int HealHP(int healing)
+    public void Boost(int bp)
+    {
+        if(bp < 0 && (boost + bp) >= 0)
+        {
+            boost += bp;
+        }
+        else if(bp > 0 && (boost + bp) <= BP)
+        {
+            boost += bp;
+        }
+    }
+
+    public void HealHP(int healing)
     {
         HP += healing;
 
@@ -151,10 +241,10 @@ public class EnemyData : MonoBehaviour
             HP = maxHP;
         }
         
-        return (healing / 10);
+        sub = (healing / 10);
     }
 
-    public int HealEP(int healing)
+    public void HealEP(int healing)
     {
         EP += healing;
 
@@ -163,10 +253,10 @@ public class EnemyData : MonoBehaviour
             EP = maxEP;
         }
         
-        return (healing / 2);
+        sub = (healing / 2);
     }
 
-    public int HealBP(int healing)
+    public void HealBP(int healing)
     {
         BP += healing;
 
@@ -175,10 +265,10 @@ public class EnemyData : MonoBehaviour
             BP = maxBP;
         }
         
-        return (healing / 5);
+        sub = (healing / 5);
     }
 
-    public int HarmHP(int harming)
+    public void HarmHP(int harming)
     {
         HP -= (harming / 10);
 
@@ -187,10 +277,10 @@ public class EnemyData : MonoBehaviour
             HP = 0;
         }
         
-        return (harming);
+        sub = (harming);
     }
 
-    public int HarmEP(int harming)
+    public void HarmEP(int harming)
     {
         EP -= (harming / 2);
 
@@ -199,10 +289,10 @@ public class EnemyData : MonoBehaviour
             EP = 0;
         }
         
-        return (harming);
+        sub = (harming);
     }
 
-    public int HarmBP(int harming)
+    public void HarmBP(int harming)
     {
         BP -= (harming / 5);
 
@@ -211,10 +301,10 @@ public class EnemyData : MonoBehaviour
             BP = 0;
         }
         
-        return (harming);
+        sub = (harming);
     }
 
-    public int PhysicalAttack(int enemyOffence, int enemyAccuracy, int enemyLuck, string damageType)
+    public void Attack(int enemyOffence, int enemyAccuracy, int enemyLuck, string damageType)
     {
         int damage;
 
@@ -230,21 +320,21 @@ public class EnemyData : MonoBehaviour
             {
                 enemyOffence += enemyLuck;
             }
+
+            damage = (enemyOffence * (enemyOffence/Defence()));
         }
         else
         {
-            return 0;
+            return;
         }
         
         foreach(string type in resistance)
         {
             if(type == damageType)
             {
-                damage = (enemyOffence * (enemyOffence/Defence())) / 2;
+                damage = damage / 2;
 
-                HP -= damage;
-
-                return damage;
+                return;
             }
         }
 
@@ -252,24 +342,79 @@ public class EnemyData : MonoBehaviour
         {
             if(type == damageType)
             {
-                damage = (enemyOffence * (enemyOffence/Defence())) * 2;
-                
-                HP -= damage;
+                damage = damage * 2;
 
-                return damage;
+                return;
             }
         }
 
-        damage = (enemyOffence * (enemyOffence/Defence()));
+        HP -= damage;
+
+        return;
+    }
+
+    public void PhysicalAttack(int enemyOffence, int enemyAccuracy, int enemyLuck, string damageType)
+    {
+        int damage;
+
+        float hitChance = enemyAccuracy + Random.Range(0, enemyAccuracy);
+        float missChance = Evasion() + Random.Range(0, Evasion());
+
+        if(missChance < hitChance)
+        {
+            float critChance = enemyLuck + Random.Range(0, enemyLuck);
+            float evadeChance = Evasion() + Random.Range(0, Evasion());
+
+            if (evadeChance < critChance)
+            {
+                enemyOffence += enemyLuck;
+            }
+
+            damage = (enemyOffence * (enemyOffence/Defence()));
+        }
+        else
+        {
+            sub = 0;
+
+            return;
+        }
+        
+        foreach(string type in resistance)
+        {
+            if(type == damageType)
+            {
+                damage = damage / 2;
+
+                sub = damage;
+                
+                return;
+            }
+        }
+
+        foreach(string type in vulnerability)
+        {
+            if(type == damageType)
+            {
+                damage = damage * 2;
+
+                sub = damage;
+
+                return;
+            }
+        }
 
         HP -= damage;
 
-        return damage;
+        sub = damage;
+
+        return;
     }
 
-    public int EnergyAttack(int enemyOffence, string damageType)
+    public void EnergyAttack(int enemyOffence, string damageType)
     {
         int damage;
+
+        damage = (enemyOffence * (enemyOffence/EnergyDefence()));
         
         foreach(string type in resistance)
         {
@@ -277,9 +422,9 @@ public class EnemyData : MonoBehaviour
             {
                 damage = (enemyOffence * (enemyOffence/EnergyDefence())) / 2;
 
-                HP -= damage;
+                sub = damage;
 
-                return damage;
+                return;
             }
         }
 
@@ -288,21 +433,21 @@ public class EnemyData : MonoBehaviour
             if(type == damageType)
             {
                 damage = (enemyOffence * (enemyOffence/EnergyDefence())) * 2;
-                
-                HP -= damage;
 
-                return damage;
+                sub = damage;
+
+                return;
             }
         }
 
-        damage = (enemyOffence * (enemyOffence/EnergyDefence()));
-
         HP -= damage;
 
-        return damage;
+        sub = damage;
+
+        return;
     }
 
-    public int Damage(int amount, string damageType)
+    public void Damage(int amount, string damageType)
     {
         int damage;
         
@@ -314,7 +459,9 @@ public class EnemyData : MonoBehaviour
 
                 HP -= damage;
 
-                return damage;
+                sub = damage;
+
+                return;
             }
         }
 
@@ -326,7 +473,9 @@ public class EnemyData : MonoBehaviour
                 
                 HP -= damage;
 
-                return damage;
+                sub = damage;
+
+                return;
             }
         }
 
@@ -334,7 +483,16 @@ public class EnemyData : MonoBehaviour
 
         HP -= damage;
 
-        return damage;
+        sub = damage;
+
+        return;
+    }
+
+    public GameObject Summon(TechData summonTech)
+    {
+        summon = Instantiate(summonTech.summon, summonPos);
+
+        return summon;
     }
 
     private void AugmentStat(int augment, int stat)
@@ -354,123 +512,123 @@ public class EnemyData : MonoBehaviour
         augmentedStats[stat] = totalStats[stat];
     }
 
-    public int AugmentOffence(int augment)
+    public void AugmentOffence(int augment)
     {
         int stat = 0;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentDefence(int augment)
+    public void AugmentDefence(int augment)
     {
         int stat = 1;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentAccuracy(int augment)
+    public void AugmentAccuracy(int augment)
     {
         int stat = 2;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentEvasion(int augment)
+    public void AugmentEvasion(int augment)
     {
         int stat = 3;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentLuck(int augment)
+    public void AugmentLuck(int augment)
     {
         int stat = 4;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentSpeed(int augment)
+    public void AugmentSpeed(int augment)
     {
         int stat = 5;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentEnergyOffence(int augment)
+    public void AugmentEnergyOffence(int augment)
     {
         int stat = 6;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentEnergyDefence(int augment)
+    public void AugmentEnergyDefence(int augment)
     {
         int stat = 7;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
         
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentSupport(int augment)
+    public void AugmentSupport(int augment)
     {
         int stat = 8;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentStamina(int augment)
+    public void AugmentStamina(int augment)
     {
         int stat = 9;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentVigour(int augment)
+    public void AugmentVigour(int augment)
     {
         int stat = 10;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 
-    public int AugmentVitality(int augment)
+    public void AugmentVitality(int augment)
     {
         int stat = 11;
 
         ResetStat(stat);
         AugmentStat(augment, stat);
 
-        return (augmentedStats[stat] - totalStats[stat]);
+        sub = (augmentedStats[stat] - totalStats[stat]);
     }
 }

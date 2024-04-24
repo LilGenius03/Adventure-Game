@@ -8,6 +8,8 @@ public class BattleMenu : MonoBehaviour
 {
     public List<Button> targetButton;
     public List<TMP_Text> targetText;
+    public List<Button> allyButton;
+    public List<TMP_Text> allyText;
     public List<Button> techButton;
     public List<TMP_Text> techText;
     public List<Button> inventoryButton;
@@ -16,6 +18,7 @@ public class BattleMenu : MonoBehaviour
     public GameObject battleUI, targetMenu, techMenu, inventoryMenu, tacticMenu, boostMenu;
     public Slider boostSlider;
     public bool newTurn;
+    public int targetNo = 0, techNo = 0, subNo = 0;
     public CharacterData currentChar, selectedCharacter;
     public EnemyData selectedEnemy;
     public TechData selectedTech;
@@ -36,30 +39,42 @@ public class BattleMenu : MonoBehaviour
 
     public void CharacterTurn(int charNo)
     {
-        currentChar = party.members[charNo];
+        currentChar = party.tempMembers[charNo];
+        Debug.Log(currentChar.characterName);
 
         for(int i = 0; i < currentChar.techs.Count; i++)
         {
             techText[i].text = currentChar.techs[i].title;
             techButton[i].gameObject.SetActive(true);
             techButton[i].onClick.RemoveAllListeners();
-            techButton[i].onClick.AddListener(() => SelectTech(currentChar.techs[i]));
+            techButton[i].onClick.AddListener(() => SelectTech(currentChar.techs[techNo]));
+            techButton[i].onClick.AddListener(() => techMenu.SetActive(false));
         }
-
         battleUI.gameObject.SetActive(true);
+    }
+
+    public void TargetInt(int targetNumber)
+    {
+        targetNo = targetNumber;
+    }
+
+    public void TechInt(int techNumber)
+    {
+        techNo = techNumber;
     }
 
     public void Attack()
     {
-        for(int i = 0; i < encounter.enemies.Count; i++)
+        for(int i = 0; i < encounter.tempEnemies.Count; i++)
         {
-            if(targetButton[i].gameObject.tag == "Enemy" && encounter.enemies[i].HP > 0)
+            if(targetButton[i].gameObject.tag == "Enemy" && encounter.tempEnemies[i].HP > 0)
             {
-                targetText[i].text = encounter.enemies[i].enemyName;
+                targetText[i].text = encounter.tempEnemies[i].enemyName;
                 targetButton[i].gameObject.SetActive(true);
                 targetButton[i].onClick.RemoveAllListeners();
-                targetButton[i].onClick.AddListener(() => encounter.enemies[i].PhysicalAttack(currentChar.Offence(), currentChar.Accuracy(), currentChar.Luck(), currentChar.weaponSlot.type));
+                targetButton[i].onClick.AddListener(() => encounter.tempEnemies[targetNo].Attack((currentChar.Offence() + currentChar.boost), (currentChar.Accuracy() + currentChar.boost), (currentChar.Luck() + currentChar.boost), currentChar.weaponSlot.type));
                 targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                targetButton[i].onClick.AddListener(() => EndTurn());
             }
             else
             {
@@ -77,20 +92,22 @@ public class BattleMenu : MonoBehaviour
             case "Self":
             {
                 Tech(tech, currentChar.combattantScript);
+                EndTurn();
                 break;
             }
             
             case "Enemy":
             {
-                for(int i = 0; i < encounter.enemies.Count; i++)
+                for(int i = 0; i < encounter.tempEnemies.Count; i++)
                 {
-                    if(targetButton[i].gameObject.tag == "Enemy" && encounter.enemies[i].HP > 0)
+                    if(targetButton[i].gameObject.tag == "Enemy" && encounter.tempEnemies[i].HP > 0)
                     {
-                        targetText[i].text = encounter.enemies[i].enemyName;
+                        targetText[i].text = encounter.tempEnemies[i].enemyName;
                         targetButton[i].gameObject.SetActive(true);
                         targetButton[i].onClick.RemoveAllListeners();
-                        targetButton[i].onClick.AddListener(() => Tech(tech, encounter.enemies[i].combattantScript));
+                        targetButton[i].onClick.AddListener(() => Tech(tech, encounter.tempEnemies[targetNo].combattantScript));
                         targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                        targetButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
@@ -105,24 +122,28 @@ public class BattleMenu : MonoBehaviour
             case "Enemies":
             {
                 Tech(tech, currentChar.combattantScript);
+                EndTurn();
                 break;
             }
 
             case "Ally":
-            {
-                for(int i = 0; i < party.members.Count; i++)
+            {   
+                for(int i = 0; i < party.tempMembers.Count; i++)
                 {
-                    if(targetButton[i].gameObject.tag == "Ally" && party.members[i].HP > 0)
+                    if(allyButton[i].gameObject.tag == "Ally" && party.tempMembers[i].HP > 0)
                     {
-                        targetText[i].text = party.members[i].characterName;
-                        targetButton[i].gameObject.SetActive(true);
-                        targetButton[i].onClick.RemoveAllListeners();
-                        targetButton[i].onClick.AddListener(() => Tech(tech, party.members[i].combattantScript));
-                        targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                        //Debug.Log("target ally");
+
+                        allyText[i].text = party.tempMembers[i].characterName;
+                        allyButton[i].gameObject.SetActive(true);
+                        allyButton[i].onClick.RemoveAllListeners();
+                        allyButton[i].onClick.AddListener(() => Tech(tech, party.tempMembers[targetNo].combattantScript));
+                        allyButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                        allyButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
-                        targetButton[i].gameObject.SetActive(false);
+                        allyButton[i].gameObject.SetActive(false);
                     }
                 }
                 targetMenu.SetActive(true);
@@ -133,24 +154,26 @@ public class BattleMenu : MonoBehaviour
             case "Allies":
             {
                 Tech(tech, currentChar.combattantScript);
+                EndTurn();
                 break;
             }
 
             case "Dead Ally":
             {
-                for(int i = 0; i < party.members.Count; i++)
+                for(int i = 0; i < party.tempMembers.Count; i++)
                 {
-                    if(targetButton[i].gameObject.tag == "Ally" && party.members[i].HP <= 0)
+                    if(allyButton[i].gameObject.tag == "Ally" && party.tempMembers[i].HP <= 0)
                     {
-                        targetText[i].text = party.members[i].characterName;
-                        targetButton[i].gameObject.SetActive(true);
-                        targetButton[i].onClick.RemoveAllListeners();
-                        targetButton[i].onClick.AddListener(() => Tech(tech, party.members[i].combattantScript));
-                        targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                        allyText[i].text = party.tempMembers[i].characterName;
+                        allyButton[i].gameObject.SetActive(true);
+                        allyButton[i].onClick.RemoveAllListeners();
+                        allyButton[i].onClick.AddListener(() => Tech(tech, party.tempMembers[targetNo].combattantScript));
+                        allyButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
+                        allyButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
-                        targetButton[i].gameObject.SetActive(false);
+                        allyButton[i].gameObject.SetActive(false);
                     }
                 }
                 targetMenu.SetActive(true);
@@ -160,6 +183,14 @@ public class BattleMenu : MonoBehaviour
             case "Dead Allies":
             {
                 Tech(tech, currentChar.combattantScript);
+                EndTurn();
+                break;
+            }
+
+            case "Summon":
+            {
+                Tech(tech, currentChar.combattantScript);
+                EndTurn();
                 break;
             }
         }
@@ -168,6 +199,7 @@ public class BattleMenu : MonoBehaviour
     public void EndTurn()
     {
         currentChar.BP -= currentChar.boost;
+        currentChar.boost = 0;
 
         for(int i = 0; i < currentChar.techs.Count; i++)
         {
@@ -197,15 +229,19 @@ public class BattleMenu : MonoBehaviour
             {
                 case "Self":
                 {
+                    Debug.Log("target self");
+                    
                     selectedCharacter = currentChar;
 
                     DefensiveTech(tech, selectedCharacter);
 
                     break;
                 }
-                
+
                 case "Enemy":
                 {
+                    Debug.Log("target enemy");
+                    
                     EnemyData targetEnemy = combattant.gameObject.GetComponent<EnemyData>();
 
                     selectedEnemy = targetEnemy;
@@ -217,13 +253,15 @@ public class BattleMenu : MonoBehaviour
 
                 case "Enemies":
                 {
-                    for(int i = 0; i < encounter.enemies.Count; i++)
+                    for(int i = 0; i < encounter.tempEnemies.Count; i++)
                     {
-                        if(encounter.enemies[i].HP > 0)
+                        if(encounter.tempEnemies[i].HP > 0)
                         {
-                            selectedEnemy = encounter.enemies[i];
+                            Debug.Log("target enemy");
                             
-                            OffensiveTech(tech, encounter.enemies[i]);
+                            selectedEnemy = encounter.tempEnemies[i];
+                            
+                            OffensiveTech(tech, encounter.tempEnemies[i]);
                         }
                     }
 
@@ -232,6 +270,8 @@ public class BattleMenu : MonoBehaviour
 
                 case "Ally":
                 {
+                    Debug.Log("target ally");
+
                     CharacterData targetAlly = combattant.gameObject.GetComponent<CharacterData>();
 
                     selectedCharacter = targetAlly;
@@ -243,13 +283,15 @@ public class BattleMenu : MonoBehaviour
 
                 case "Allies":
                 {
-                    for(int i = 0; i < party.members.Count; i++)
+                    for(int i = 0; i < party.tempMembers.Count; i++)
                     {
-                        if(party.members[i].HP > 0)
+                        if(party.tempMembers[i].HP > 0)
                         {
-                            selectedCharacter = party.members[i];
+                            Debug.Log("target ally");
 
-                            DefensiveTech(tech, party.members[i]);
+                            selectedCharacter = party.tempMembers[i];
+
+                            DefensiveTech(tech, party.tempMembers[i]);
                         }
                     }
 
@@ -258,6 +300,8 @@ public class BattleMenu : MonoBehaviour
 
                 case "Dead Ally":
                 {
+                    Debug.Log("target ally");
+                    
                     CharacterData targetAlly = combattant.gameObject.GetComponent<CharacterData>();
 
                     selectedCharacter = targetAlly;
@@ -269,13 +313,15 @@ public class BattleMenu : MonoBehaviour
 
                 case "Dead Allies":
                 {
-                    for(int i = 0; i < party.members.Count; i++)
+                    for(int i = 0; i < party.tempMembers.Count; i++)
                     {
-                        if(party.members[i].HP < 0)
+                        if(party.tempMembers[i].HP < 0)
                         {
-                            selectedCharacter = party.members[i];
+                            Debug.Log("target ally");
                             
-                            DefensiveTech(tech, party.members[i]);
+                            selectedCharacter = party.tempMembers[i];
+                            
+                            DefensiveTech(tech, party.tempMembers[i]);
                         }
                     }
 
@@ -307,84 +353,108 @@ public class BattleMenu : MonoBehaviour
                 {
                     case "Offence":
                     {
-                        Subtech(tech, enemy.AugmentOffence(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentOffence(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Defence":
                     {
-                        Subtech(tech, enemy.AugmentDefence(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentDefence(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Accuracy":
                     {
-                        Subtech(tech, enemy.AugmentAccuracy(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentAccuracy(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Evasion":
                     {
-                        Subtech(tech, enemy.AugmentEvasion(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentEvasion(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Luck":
                     {
-                        Subtech(tech, enemy.AugmentLuck(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentLuck(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Speed":
                     {
-                        Subtech(tech, enemy.AugmentSpeed(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentSpeed(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Energy Offence":
                     {
-                        Subtech(tech, enemy.AugmentEnergyOffence(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentEnergyOffence(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Energy Defence":
                     {
-                        Subtech(tech, enemy.AugmentEnergyDefence(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentEnergyDefence(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Support":
                     {
-                        Subtech(tech, enemy.AugmentSupport(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentSupport(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Stamina":
                     {
-                        Subtech(tech, enemy.AugmentStamina(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentStamina(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Vigour":
                     {
-                        Subtech(tech, enemy.AugmentVigour(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentVigour(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Vitality":
                     {
-                        Subtech(tech, enemy.AugmentVitality(-currentChar.Support() - tech.energy - currentChar.boost));
+                        enemy.AugmentVitality(-currentChar.Support() - tech.energy - currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
@@ -400,14 +470,22 @@ public class BattleMenu : MonoBehaviour
 
             case "Physical Attack":
             {
-                Subtech(tech, enemy.PhysicalAttack((currentChar.Offence() + tech.energy + currentChar.boost), (currentChar.Accuracy() + tech.energy + currentChar.boost), (currentChar.Luck() + tech.energy + currentChar.boost), tech.type));
+                Debug.Log("Attack Enemy");
+
+                enemy.PhysicalAttack((currentChar.Offence() + tech.energy + currentChar.boost), (currentChar.Accuracy() + tech.energy + currentChar.boost), (currentChar.Luck() + tech.energy + currentChar.boost), tech.type);
+
+                Subtech(tech, enemy.sub);
 
                 break;
             }
 
             case "Energy Attack":
             {
-                Subtech(tech, enemy.EnergyAttack((currentChar.EnergyOffence() + tech.energy + currentChar.boost), tech.type));
+                Debug.Log("Attack Enemy");
+
+                enemy.EnergyAttack((currentChar.EnergyOffence() + tech.energy + currentChar.boost), tech.type);
+
+                Subtech(tech, enemy.sub);
 
                 break;
             }
@@ -418,21 +496,33 @@ public class BattleMenu : MonoBehaviour
                 {
                     case "Health":
                     {
-                        Subtech(tech, enemy.HarmHP(currentChar.Support() + tech.health + currentChar.boost));
+                        Debug.Log("Harm Enemy");
+
+                        enemy.HarmHP(currentChar.Support() + tech.health + currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Energy":
                     {
-                        Subtech(tech, enemy.HarmEP(currentChar.Support() + tech.energy + currentChar.boost));
+                        Debug.Log("Harm Enemy");
+
+                        enemy.HarmEP(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
 
                     case "Boost":
                     {
-                        Subtech(tech, enemy.HarmBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost));
+                        Debug.Log("Harm Enemy");
+
+                        enemy.HarmBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost);
+
+                        Subtech(tech, enemy.sub);
 
                         break;
                     }
@@ -463,84 +553,108 @@ public class BattleMenu : MonoBehaviour
                 {
                     case "Offence":
                     {
-                        Subtech(tech, ally.AugmentOffence(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentOffence(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Defence":
                     {
-                        Subtech(tech, ally.AugmentDefence(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentDefence(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Accuracy":
                     {
-                        Subtech(tech, ally.AugmentAccuracy(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentAccuracy(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Evasion":
                     {
-                        Subtech(tech, ally.AugmentEvasion(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentEvasion(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Luck":
                     {
-                        Subtech(tech, ally.AugmentLuck(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentLuck(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Speed":
                     {
-                        Subtech(tech, ally.AugmentSpeed(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentSpeed(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Energy Offence":
                     {
-                        Subtech(tech, ally.AugmentEnergyOffence(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentEnergyOffence(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Energy Defence":
                     {
-                        Subtech(tech, ally.AugmentEnergyDefence(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentEnergyDefence(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Support":
                     {
-                        Subtech(tech, ally.AugmentSupport(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentSupport(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Stamina":
                     {
-                        Subtech(tech, ally.AugmentStamina(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentStamina(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Vigour":
                     {
-                        Subtech(tech, ally.AugmentVigour(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentVigour(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Vitality":
                     {
-                        Subtech(tech, ally.AugmentVitality(currentChar.Support() + tech.energy + currentChar.boost));
+                        ally.AugmentVitality(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
@@ -560,21 +674,33 @@ public class BattleMenu : MonoBehaviour
                 {
                     case "Health":
                     {
-                        Subtech(tech, ally.HealHP(currentChar.Support() + tech.energy + currentChar.boost));
+                        Debug.Log("Heal Ally");
+
+                        ally.HealHP(currentChar.Support() + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Energy":
                     {
-                        Subtech(tech, ally.HealEP(currentChar.Support() + tech.health + currentChar.boost));
+                        Debug.Log("Heal Ally");
+
+                        ally.HealEP(currentChar.Support() + tech.health + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
 
                     case "Boost":
                     {
-                        Subtech(tech, ally.HealBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost));
+                        Debug.Log("Heal Ally");
+
+                        ally.HealBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost);
+
+                        Subtech(tech, ally.sub);
 
                         break;
                     }
@@ -626,11 +752,11 @@ public class BattleMenu : MonoBehaviour
 
                 case "Enemies":
                 {
-                    for(int i = 0; i < encounter.enemies.Count; i++)
+                    for(int i = 0; i < encounter.tempEnemies.Count; i++)
                     {
-                        if(encounter.enemies[i].HP > 0)
+                        if(encounter.tempEnemies[i].HP > 0)
                         {
-                            OffensiveSubtech(tech, encounter.enemies[i], sub);
+                            OffensiveSubtech(tech, encounter.tempEnemies[i], sub);
                         }
                     }
 
@@ -646,11 +772,11 @@ public class BattleMenu : MonoBehaviour
 
                 case "Allies":
                 {
-                    for(int i = 0; i < party.members.Count; i++)
+                    for(int i = 0; i < party.tempMembers.Count; i++)
                     {
-                        if(party.members[i].HP > 0)
+                        if(party.tempMembers[i].HP > 0)
                         {
-                            DefensiveSubtech(tech, party.members[i], sub);
+                            DefensiveSubtech(tech, party.tempMembers[i], sub);
                         }
                     }
 
@@ -666,11 +792,11 @@ public class BattleMenu : MonoBehaviour
 
                 case "Dead Allies":
                 {
-                    for(int i = 0; i < party.members.Count; i++)
+                    for(int i = 0; i < party.tempMembers.Count; i++)
                     {
-                        if(party.members[i].HP < 0)
+                        if(party.tempMembers[i].HP < 0)
                         {
-                            DefensiveSubtech(tech, party.members[i], sub);
+                            DefensiveSubtech(tech, party.tempMembers[i], sub);
                         }
                     }
 
@@ -679,7 +805,7 @@ public class BattleMenu : MonoBehaviour
 
                 case "Summon":
                 {
-                    DefensiveSubtech(tech, currentChar);
+                    DefensiveSubtech(tech, currentChar, 0);
 
                     break;
                 }
@@ -690,8 +816,6 @@ public class BattleMenu : MonoBehaviour
                 }
             }
         }
-
-        EndTurn();
     }
 
     public void OffensiveSubtech(TechData tech, EnemyData enemy, int sub)
@@ -878,6 +1002,8 @@ public class BattleMenu : MonoBehaviour
                 break;
             }
         }
+
+        //EndTurn();
     }
 
     public void DefensiveSubtech(TechData tech, CharacterData ally, int sub)
@@ -1022,6 +1148,8 @@ public class BattleMenu : MonoBehaviour
                 break;
             }
         }
+
+        //EndTurn();
     }
 
     // Update is called once per frame

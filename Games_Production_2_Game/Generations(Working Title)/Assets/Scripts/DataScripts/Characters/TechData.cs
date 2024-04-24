@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tech")]
+[System.Serializable]
 public class TechData : ScriptableObject
 {
     public string title, description, target, effect, type, subtarget, subeffect, subtype;

@@ -31,7 +31,7 @@ MonoBehaviour:
   resistance: []
   vulnerability: []
   techs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: e1544f962d88a9c4f95762a6c36d066c, type: 2}
+  - {fileID: 11400000, guid: b77964633b2583140a097ba36648c7e0, type: 2}
+  - {fileID: 11400000, guid: 4bb288879faade94a965276d4e74e1e2, type: 2}
+  - {fileID: 11400000, guid: 582272c59b31e1e4ca7d26571acdc3e1, type: 2}

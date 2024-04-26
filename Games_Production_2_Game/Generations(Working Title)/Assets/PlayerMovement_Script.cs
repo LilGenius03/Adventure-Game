@@ -76,6 +76,11 @@ public class PlayerMovement_Script : MonoBehaviour
             return;
         }
 
+        /*if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0, 0));
+        }*/
+
         else
         {
             rb.constraints = RigidbodyConstraints2D.None;

@@ -1,5 +1,7 @@
+using Ink.Parsed;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,7 +13,8 @@ public class Follow_AI : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
-    //[SerializeField] float Distance;
+    private float DistanceBetweenObjects;
+    [SerializeField] private float AllyDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,8 @@ public class Follow_AI : MonoBehaviour
     void Update()
     {
         FollowPlayer();
+        DistanceBetweenObjects = Vector2.Distance(transform.position, target.transform.position);
+        Stop();
     }
 
     public void FollowPlayer()
@@ -51,5 +56,14 @@ public class Follow_AI : MonoBehaviour
        
     }
 
-    
+    public void Stop()
+    {
+        if(DistanceBetweenObjects <= AllyDistance)
+        {
+            moveSpeed = 0;
+            rotationSpeed = 0;
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0, 0));
+        }
+    }
+
 }

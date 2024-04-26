@@ -5,7 +5,6 @@ using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
 using Ink.UnityIntegration;
-using Unity.VisualScripting;
 
 public class Dialogue_Manager : MonoBehaviour
 {
@@ -21,6 +20,9 @@ public class Dialogue_Manager : MonoBehaviour
 
     [Header("Globals Ink File")]
     [SerializeField] private InkFile globalsInkFile;
+
+    [Header("Boolean Options")]
+    private bool canFollow;
 
     [Header("Audio")]
     private AudioSource audioSource;
@@ -287,7 +289,7 @@ public class Dialogue_Manager : MonoBehaviour
                     SetCurrentAudioInfo(tagValue);
                     break;
                 default:
-               // case PARTY_TAG:
+                //case PARTY_TAG:
                     //follow.FollowPlayer();
                     //break;
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);

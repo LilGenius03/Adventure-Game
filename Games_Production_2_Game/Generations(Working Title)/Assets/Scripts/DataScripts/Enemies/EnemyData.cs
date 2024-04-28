@@ -241,7 +241,7 @@ public class EnemyData : MonoBehaviour
             HP = maxHP;
         }
         
-        sub = (healing / 10);
+        sub = (healing);
     }
 
     public void HealEP(int healing)
@@ -253,7 +253,7 @@ public class EnemyData : MonoBehaviour
             EP = maxEP;
         }
         
-        sub = (healing / 2);
+        sub = (healing);
     }
 
     public void HealBP(int healing)
@@ -265,12 +265,12 @@ public class EnemyData : MonoBehaviour
             BP = maxBP;
         }
         
-        sub = (healing / 5);
+        sub = (healing);
     }
 
     public void HarmHP(int harming)
     {
-        HP -= (harming / 10);
+        HP -= (harming);
 
         if(HP < 0)
         {
@@ -282,7 +282,7 @@ public class EnemyData : MonoBehaviour
 
     public void HarmEP(int harming)
     {
-        EP -= (harming / 2);
+        EP -= (harming);
 
         if(EP < 0)
         {
@@ -294,7 +294,7 @@ public class EnemyData : MonoBehaviour
 
     public void HarmBP(int harming)
     {
-        BP -= (harming / 5);
+        BP -= (harming);
 
         if(BP < 0)
         {
@@ -306,7 +306,7 @@ public class EnemyData : MonoBehaviour
 
     public void Attack(int enemyOffence, int enemyAccuracy, int enemyLuck, string damageType)
     {
-        int damage;
+        int damage = 0;
 
         float hitChance = enemyAccuracy + Random.Range(0, enemyAccuracy);
         float missChance = Evasion() + Random.Range(0, Evasion());
@@ -315,16 +315,31 @@ public class EnemyData : MonoBehaviour
         {
             float critChance = enemyLuck + Random.Range(0, enemyLuck);
             float evadeChance = Evasion() + Random.Range(0, Evasion());
+            Debug.Log("Hit!");
 
             if (evadeChance < critChance)
             {
                 enemyOffence += enemyLuck;
+                Debug.Log("Crit!");
             }
 
-            damage = (enemyOffence * (enemyOffence/Defence()));
+            int offence = enemyOffence - Defence();
+
+            damage = offence + Random.Range(0, enemyOffence);
+
+            if(damage <= 0)
+            {
+                damage = 1;
+            }
+
+            //damage = (enemyOffence * (enemyOffence/Defence()));
         }
         else
         {
+            Debug.Log("Miss!");
+
+            sub = damage;
+
             return;
         }
         
@@ -334,7 +349,14 @@ public class EnemyData : MonoBehaviour
             {
                 damage = damage / 2;
 
-                return;
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
+                Debug.Log("Uneffective!");
+
+                //return;
             }
         }
 
@@ -344,11 +366,22 @@ public class EnemyData : MonoBehaviour
             {
                 damage = damage * 2;
 
-                return;
+                Debug.Log("Effective!");
+
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(enemyName + " takes " + damage + " damage");
+
+        sub = damage;
 
         return;
     }
@@ -364,16 +397,29 @@ public class EnemyData : MonoBehaviour
         {
             float critChance = enemyLuck + Random.Range(0, enemyLuck);
             float evadeChance = Evasion() + Random.Range(0, Evasion());
+            Debug.Log("Hit!");
 
             if (evadeChance < critChance)
             {
                 enemyOffence += enemyLuck;
+                Debug.Log("Crit!");
             }
 
-            damage = (enemyOffence * (enemyOffence/Defence()));
+            int offence = enemyOffence - Defence();
+
+            damage = offence + Random.Range(0, enemyOffence);
+
+            if(damage <= 0)
+            {
+                damage = 1;
+            }
+
+            //damage = (enemyOffence * (enemyOffence/Defence()));
         }
         else
         {
+            Debug.Log("Miss!");
+
             sub = 0;
 
             return;
@@ -385,9 +431,16 @@ public class EnemyData : MonoBehaviour
             {
                 damage = damage / 2;
 
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
+                Debug.Log("Uneffective!");
+
                 sub = damage;
                 
-                return;
+                //return;
             }
         }
 
@@ -397,13 +450,22 @@ public class EnemyData : MonoBehaviour
             {
                 damage = damage * 2;
 
+                Debug.Log("Effective!");
+
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(enemyName + " takes " + damage + " damage");
 
         sub = damage;
 
@@ -414,17 +476,33 @@ public class EnemyData : MonoBehaviour
     {
         int damage;
 
-        damage = (enemyOffence * (enemyOffence/EnergyDefence()));
+        int offence = enemyOffence - Defence();
+
+        damage = offence + Random.Range(0, enemyOffence);
+
+        if(damage <= 0)
+        {
+            damage = 1;
+        }
+
+        //damage = (enemyOffence * (enemyOffence/EnergyDefence()));
         
         foreach(string type in resistance)
         {
             if(type == damageType)
             {
-                damage = (enemyOffence * (enemyOffence/EnergyDefence())) / 2;
+                damage = damage / 2;
+
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
+                Debug.Log("Uneffective!");
 
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
@@ -432,15 +510,24 @@ public class EnemyData : MonoBehaviour
         {
             if(type == damageType)
             {
-                damage = (enemyOffence * (enemyOffence/EnergyDefence())) * 2;
+                damage = damage * 2;
+
+                Debug.Log("Effective!");
 
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(enemyName + " takes " + damage + " damage");
 
         sub = damage;
 
@@ -497,9 +584,14 @@ public class EnemyData : MonoBehaviour
 
     private void AugmentStat(int augment, int stat)
     {
-        if (augment < 0)
+        if (augment <= 0)
         {
-            augmentedStats[stat] = augmentedStats[stat] / (1 + (-augment / totalStats[stat]));
+            augmentedStats[stat] = augmentedStats[stat] + augment; /// (1 + (-augment / totalStats[stat]));
+
+            if (augmentedStats[stat] <= 0)
+            {
+                augmentedStats[stat] = 1 * level;
+            }
         }
         else if(augment > 0)
         {

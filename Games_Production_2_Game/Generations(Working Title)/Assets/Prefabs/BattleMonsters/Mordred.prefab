@@ -121,6 +121,8 @@ MonoBehaviour:
   techs:
   - {fileID: 11400000, guid: 1ac787485491f4c47875892343ba2d07, type: 2}
   - {fileID: 11400000, guid: ddfc21d52627fac43b019d100751c57f, type: 2}
+  - {fileID: 11400000, guid: 40d6fcc6d8b7e6540b3db9216bf9a89d, type: 2}
+  - {fileID: 11400000, guid: b24fbe50849790c439b2dba71abf6d38, type: 2}
   drops: []
   rarity: []
   coins: 0

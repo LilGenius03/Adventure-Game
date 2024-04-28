@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class BattleManager : MonoBehaviour
     public EnemyHandler enemyHandler;
     public Transform[] characterPos;
     public Transform[] enemyPos;
+    public GameObject textBox;
+    public TMP_Text text;
 
     //public static BattleManager battle;
     public BattleMenu battleMenu;
@@ -59,6 +63,22 @@ public class BattleManager : MonoBehaviour
     {
         if(nextTurn)
         {
+            bool won = true;
+
+            foreach(EnemyData enemy in encounter.tempEnemies)
+            {
+                if(enemy.HP > 0)
+                {
+                    won = false;
+                }
+            }
+
+            if(won)
+            {
+                WinEncounter();
+            }
+
+
             nextTurn = false;
 
             if(currentTurn < initiative.Count)
@@ -197,7 +217,9 @@ public class BattleManager : MonoBehaviour
 
     void WinEncounter()
     {
-        foreach (EnemyData enemy in encounter.enemies)
+        SceneManager.LoadScene(GameDataManager.instance.progress.currentScene);
+
+        foreach(EnemyData enemy in encounter.enemies)
         {
             int drop = 0;
             foreach(ItemData item in enemy.drops)
@@ -228,7 +250,7 @@ public class BattleManager : MonoBehaviour
                 character.LevelUp(exp);
             }
 
-            SceneManager.LoadScene(GameDataManager.instance.progress.currentScene);
+            //SceneManager.LoadScene(GameDataManager.instance.progress.currentScene);
         }
     }
 }

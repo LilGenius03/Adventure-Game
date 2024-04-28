@@ -26,4 +26,7 @@ MonoBehaviour:
   - Hammer
   - Psychic
   techs:
-  - {fileID: 11400000, guid: b77964633b2583140a097ba36648c7e0, type: 2}
+  - {fileID: 11400000, guid: 089df5df9d0ef614580794699311eed1, type: 2}
+  - {fileID: 11400000, guid: b70fa0f782eca6f498822adcb54c62bc, type: 2}
+  - {fileID: 11400000, guid: bc293443256724f429dbdec2bd801ebc, type: 2}
+  - {fileID: 11400000, guid: 9f98830eedda98f4d8a2dbe2937b4a79, type: 2}

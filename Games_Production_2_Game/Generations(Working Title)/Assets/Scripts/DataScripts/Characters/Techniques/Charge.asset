@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4120714fc5c4c0c499c6adf844d9737d, type: 3}
-  m_Name: Radiance All
+  m_Name: Charge
   m_EditorClassIdentifier: 
-  title: Radiance Al
-  description: Deal Radiant Damage to All Enemies
-  target: Enemies
-  effect: Energy Attack
-  type: Radiance
+  title: Charge
+  description: Increase Offence & Energy Offence
+  target: Self
+  effect: Buff
+  type: Offence
   subtarget: Self
   subeffect: Buff
   subtype: Energy Offence

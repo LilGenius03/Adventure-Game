@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4120714fc5c4c0c499c6adf844d9737d, type: 3}
-  m_Name: Radiance All
+  m_Name: Fire All
   m_EditorClassIdentifier: 
-  title: Radiance Al
-  description: Deal Radiant Damage to All Enemies
+  title: Burn All
+  description: Deal Fire Damage to All Enemies
   target: Enemies
   effect: Energy Attack
-  type: Radiance
+  type: Fire
   subtarget: Self
   subeffect: Buff
-  subtype: Energy Offence
+  subtype: Evasion
   level: 0
   health: 0
-  energy: 20
+  energy: 40
   boosts: 0
   summon: {fileID: 0}

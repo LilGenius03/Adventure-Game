@@ -17,7 +17,7 @@ public class CharacterData : MonoBehaviour
     public int[] totalStats = new int[12] /*{offence, defence, accuracy, evasion, luck, speed, energyOffence, energyDefence, support, stamina, vigour, vitality}*/;
     public int[] augmentedStats = new int[12] /*{augmentedOffence, augmentedDefence, augmentedAccuracy, augmentedEvasion, augmentedLuck, augmentedSpeed, augmentedEnergyOffence, augmentedEnergyDefence, augmentedSupport, augmentedStamina, augmentedVigour, augmentedVitality}*/;
 
-    public int level, maxBP, maxEP, maxHP, maxXP, BP, EP, HP, XP, boost, sub;
+    public int level, maxBP, maxEP, maxHP, maxXP, BP, EP, HP, XP, boost = 0, sub;
     public JobData primaryJob, secondaryJob;
     public WeaponData weaponSlot;
     public ArmourData shieldSlot, headSlot, bodySlot, feetSlot, accessorySlot;
@@ -871,13 +871,16 @@ public class CharacterData : MonoBehaviour
         }
         else if(bp > 0 && (boost + bp) <= BP)
         {
-            boost += bp;
+            if(boost < (level * 5))
+            {
+                boost += bp;
+            }
         }
     }
 
     public void HealHP(int healing)
     {
-        HP += (healing / 2);
+        HP += (healing);
 
         if(HP > maxHP)
         {
@@ -888,12 +891,12 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log(characterName);
         
-        sub = (healing / 2);
+        sub = (healing);
     }
 
     public void HealEP(int healing)
     {
-        EP += (healing / 10);
+        EP += (healing);
 
         if(EP > maxEP)
         {
@@ -904,14 +907,14 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log(characterName);
         
-        sub = (healing / 10);
+        sub = (healing);
 
 
     }
 
     public void HealBP(int healing)
     {
-        BP += (healing / 5);
+        BP += (healing);
 
         if(BP > maxBP)
         {
@@ -922,12 +925,12 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log(characterName);
         
-        sub = (healing / 5);
+        sub = (healing);
     }
 
     public void HarmHP(int harming)
     {
-        HP -= (harming / 2);
+        HP -= (harming);
 
         if(HP < 0)
         {
@@ -936,12 +939,12 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log("Harm " + harming + " HP");
         
-        sub = (harming / 2);
+        sub = (harming);
     }
 
     public void HarmEP(int harming)
     {
-        EP -= (harming / 10);
+        EP -= (harming);
 
         if(EP < 0)
         {
@@ -950,12 +953,12 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log("Harm " + harming + " EP");
         
-        sub = (harming / 10);
+        sub = (harming);
     }
 
     public void HarmBP(int harming)
     {
-        BP -= (harming / 5);
+        BP -= (harming);
 
         if(BP < 0)
         {
@@ -964,7 +967,7 @@ public class CharacterData : MonoBehaviour
 
         Debug.Log("Harm " + harming + " BP");
         
-        sub = (harming / 5);
+        sub = (harming);
     }
 
     public void Attack(int enemyOffence, int enemyAccuracy, int enemyLuck, string damageType)
@@ -986,13 +989,24 @@ public class CharacterData : MonoBehaviour
                 Debug.Log("Crit!");
             }
 
-            Debug.Log(augmentedStats[1]);
+            //Debug.Log(augmentedStats[1]);
 
-            damage = (enemyOffence * (enemyOffence/Defence()));
+            int offence = enemyOffence - Defence();
+
+            damage = offence + Random.Range(0, enemyOffence);
+
+            if(damage <= 0)
+            {
+                damage = 1;
+            }
+
+            //damage = (enemyOffence * (enemyOffence/Defence()));
         }
         else
         {
             Debug.Log("Miss!");
+
+            sub = damage;
 
             return;
         }
@@ -1003,9 +1017,14 @@ public class CharacterData : MonoBehaviour
             {
                 damage = damage / 2;
 
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
                 Debug.Log("Uneffective!");
 
-                return;
+                //return;
             }
         }
 
@@ -1017,11 +1036,20 @@ public class CharacterData : MonoBehaviour
 
                 Debug.Log("Effective!");
 
-                return;
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(characterName + " takes " + damage + " damage");
+
+        sub = damage;
 
         return;
     }
@@ -1037,16 +1065,31 @@ public class CharacterData : MonoBehaviour
         {
             float critChance = enemyLuck + Random.Range(0, enemyLuck);
             float evadeChance = Evasion() + Random.Range(0, Evasion());
+            Debug.Log("Hit!");
 
             if (evadeChance < critChance)
             {
                 enemyOffence += enemyLuck;
+                Debug.Log("Crit!");
             }
 
-            damage = (enemyOffence * (enemyOffence/Defence()));
+            int offence = enemyOffence - Defence();
+
+            damage = offence + Random.Range(0, enemyOffence);
+
+            if(damage <= 0)
+            {
+                damage = 1;
+            }
+
+            //damage = (enemyOffence * (enemyOffence/Defence()));
         }
         else
         {
+            Debug.Log("Miss!");
+
+            sub = 0;
+
             return;
         }
         
@@ -1056,9 +1099,16 @@ public class CharacterData : MonoBehaviour
             {
                 damage = damage / 2;
 
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
+                Debug.Log("Uneffective!");
+
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
@@ -1068,13 +1118,22 @@ public class CharacterData : MonoBehaviour
             {
                 damage = damage * 2;
 
+                Debug.Log("Effective!");
+
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(characterName + " takes " + damage + " damage");
 
         sub = damage;
 
@@ -1085,7 +1144,16 @@ public class CharacterData : MonoBehaviour
     {
         int damage;
 
-        damage = (enemyOffence * (enemyOffence/EnergyDefence()));
+        int offence = enemyOffence - Defence();
+
+        damage = offence + Random.Range(0, enemyOffence);
+
+        if(damage <= 0)
+        {
+            damage = 1;
+        }
+
+        //damage = (enemyOffence * (enemyOffence/EnergyDefence()));
         
         foreach(string type in resistance)
         {
@@ -1093,9 +1161,16 @@ public class CharacterData : MonoBehaviour
             {
                 damage = damage / 2;
 
+                if(damage < 1)
+                {
+                    damage = 0;
+                }
+
+                Debug.Log("Uneffective!");
+
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
@@ -1105,13 +1180,22 @@ public class CharacterData : MonoBehaviour
             {
                 damage = damage * 2;
 
+                Debug.Log("Effective!");
+
                 sub = damage;
 
-                return;
+                //return;
             }
         }
 
         HP -= damage;
+
+        if(HP < maxHP)
+        {
+            HP = 0;
+        }
+
+        Debug.Log(characterName + " takes " + damage + " damage");
 
         sub = damage;
 
@@ -1168,9 +1252,14 @@ public class CharacterData : MonoBehaviour
 
     private void AugmentStat(int augment, int stat)
     {
-        if (augment < 0)
+        if (augment <= 0)
         {
-            augmentedStats[stat] = augmentedStats[stat] / (1 + (-augment / totalStats[stat]));
+            augmentedStats[stat] = augmentedStats[stat]  + augment; /// (1 + (-augment / totalStats[stat]));
+
+            if (augmentedStats[stat] <= 0)
+            {
+                augmentedStats[stat] = 1 * level;
+            }
         }
         else if(augment > 0)
         {

@@ -16,9 +16,11 @@ public class BattleMenu : MonoBehaviour
     public List<TMP_Text> inventoryText;
     public List<GameObject> characterUI;
     public GameObject battleUI, targetMenu, techMenu, inventoryMenu, tacticMenu, boostMenu;
+    public TMP_Text boostText;
     public Slider boostSlider;
     public bool newTurn;
     public int targetNo = 0, techNo = 0, subNo = 0;
+    private float time = 3.0f;
     public CharacterData currentChar, selectedCharacter;
     public EnemyData selectedEnemy;
     public TechData selectedTech;
@@ -74,7 +76,7 @@ public class BattleMenu : MonoBehaviour
                 targetButton[i].onClick.RemoveAllListeners();
                 targetButton[i].onClick.AddListener(() => encounter.tempEnemies[targetNo].Attack((currentChar.Offence() + currentChar.boost), (currentChar.Accuracy() + currentChar.boost), (currentChar.Luck() + currentChar.boost), currentChar.weaponSlot.type));
                 targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
-                targetButton[i].onClick.AddListener(() => EndTurn());
+                targetButton[i].onClick.AddListener(() => StartCoroutine(AttackText(encounter.tempEnemies[targetNo].sub, encounter.tempEnemies[targetNo].enemyName)));
             }
             else
             {
@@ -84,6 +86,138 @@ public class BattleMenu : MonoBehaviour
         targetMenu.SetActive(true);
     }
 
+    IEnumerator AttackText(int damage, string enemyName)
+    {
+        battle.textBox.SetActive(true);
+
+        if(damage <= 0)
+        {
+            battle.text.text = currentChar.characterName + " Misses!";
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " dealt " + damage.ToString() + " " + currentChar.weaponSlot.type + " damage to " + enemyName;
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        EndTurn();
+    }
+
+    IEnumerator TechAttackText(int damage, string damageType, string enemyName)
+    {
+        battle.textBox.SetActive(true);
+        
+        if(damage <= 0)
+        {
+            battle.text.text = currentChar.characterName + " Misses!";
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " dealt " + damage.ToString() + " " + damageType + " damage to " + enemyName;
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        //EndTurn();
+    }
+
+    IEnumerator AugmentText(int augment, string stat, string targetName)
+    {
+        battle.textBox.SetActive(true);
+        
+        if(augment <= 0)
+        {
+            battle.text.text = currentChar.characterName + " decreases " + targetName + "'s " + stat + " by " + augment.ToString();
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " increases " + targetName + "'s " + stat + " by " + augment.ToString();
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        //EndTurn();
+    }
+
+    IEnumerator HealthText(int augment, string targetName)
+    {
+        battle.textBox.SetActive(true);
+        
+        if(augment <= 0)
+        {
+            battle.text.text = currentChar.characterName + " harms " + targetName + "'s HP by " + augment.ToString();
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " heals " + targetName + "'s HP by " + augment.ToString();
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        //EndTurn();
+    }
+
+    IEnumerator EnergyText(int augment, string targetName)
+    {
+        battle.textBox.SetActive(true);
+        
+        if(augment <= 0)
+        {
+            battle.text.text = currentChar.characterName + " harms " + targetName + "'s EP by " + augment.ToString();
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " heals " + targetName + "'s EP by " + augment.ToString();
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        //EndTurn();
+    }
+
+    IEnumerator BoostText(int augment, string targetName)
+    {
+        battle.textBox.SetActive(true);
+        
+        if(augment <= 0)
+        {
+            battle.text.text = currentChar.characterName + " harms " + targetName + "'s BP by " + augment.ToString();
+        }
+        else
+        {
+            battle.text.text = currentChar.characterName + " heals " + targetName + "'s BP by " + augment.ToString();
+        }
+        
+        yield return new WaitForSeconds(time);
+
+        //battle.text.text = "";
+
+        //battle.textBox.SetActive(false);
+
+        //EndTurn();
+    }
+
     public void SelectTech(TechData tech)
     {
         selectedTech = tech;
@@ -91,8 +225,8 @@ public class BattleMenu : MonoBehaviour
         {
             case "Self":
             {
-                Tech(tech, currentChar.combattantScript);
-                EndTurn();
+                StartCoroutine(Tech(tech, currentChar.combattantScript));
+                //EndTurn();
                 break;
             }
             
@@ -105,9 +239,9 @@ public class BattleMenu : MonoBehaviour
                         targetText[i].text = encounter.tempEnemies[i].enemyName;
                         targetButton[i].gameObject.SetActive(true);
                         targetButton[i].onClick.RemoveAllListeners();
-                        targetButton[i].onClick.AddListener(() => Tech(tech, encounter.tempEnemies[targetNo].combattantScript));
+                        targetButton[i].onClick.AddListener(() => StartCoroutine(Tech(tech, encounter.tempEnemies[targetNo].combattantScript)));
                         targetButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
-                        targetButton[i].onClick.AddListener(() => EndTurn());
+                        //targetButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
@@ -121,8 +255,8 @@ public class BattleMenu : MonoBehaviour
 
             case "Enemies":
             {
-                Tech(tech, currentChar.combattantScript);
-                EndTurn();
+                StartCoroutine(Tech(tech, currentChar.combattantScript));
+                //EndTurn();
                 break;
             }
 
@@ -137,9 +271,9 @@ public class BattleMenu : MonoBehaviour
                         allyText[i].text = party.tempMembers[i].characterName;
                         allyButton[i].gameObject.SetActive(true);
                         allyButton[i].onClick.RemoveAllListeners();
-                        allyButton[i].onClick.AddListener(() => Tech(tech, party.tempMembers[targetNo].combattantScript));
+                        allyButton[i].onClick.AddListener(() => StartCoroutine(Tech(tech, party.tempMembers[targetNo].combattantScript)));
                         allyButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
-                        allyButton[i].onClick.AddListener(() => EndTurn());
+                        //allyButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
@@ -153,8 +287,8 @@ public class BattleMenu : MonoBehaviour
 
             case "Allies":
             {
-                Tech(tech, currentChar.combattantScript);
-                EndTurn();
+                StartCoroutine(Tech(tech, currentChar.combattantScript));
+                //EndTurn();
                 break;
             }
 
@@ -167,9 +301,9 @@ public class BattleMenu : MonoBehaviour
                         allyText[i].text = party.tempMembers[i].characterName;
                         allyButton[i].gameObject.SetActive(true);
                         allyButton[i].onClick.RemoveAllListeners();
-                        allyButton[i].onClick.AddListener(() => Tech(tech, party.tempMembers[targetNo].combattantScript));
+                        allyButton[i].onClick.AddListener(() => StartCoroutine(Tech(tech, party.tempMembers[targetNo].combattantScript)));
                         allyButton[i].onClick.AddListener(() => targetMenu.SetActive(false));
-                        allyButton[i].onClick.AddListener(() => EndTurn());
+                        //allyButton[i].onClick.AddListener(() => EndTurn());
                     }
                     else
                     {
@@ -182,15 +316,15 @@ public class BattleMenu : MonoBehaviour
 
             case "Dead Allies":
             {
-                Tech(tech, currentChar.combattantScript);
-                EndTurn();
+                StartCoroutine(Tech(tech, currentChar.combattantScript));
+                //EndTurn();
                 break;
             }
 
             case "Summon":
             {
-                Tech(tech, currentChar.combattantScript);
-                EndTurn();
+                StartCoroutine(Tech(tech, currentChar.combattantScript));
+                //EndTurn();
                 break;
             }
         }
@@ -198,6 +332,8 @@ public class BattleMenu : MonoBehaviour
 
     public void EndTurn()
     {
+        battle.text.text = "";
+        battle.textBox.SetActive(false);
         currentChar.BP -= currentChar.boost;
         currentChar.boost = 0;
 
@@ -219,8 +355,19 @@ public class BattleMenu : MonoBehaviour
         currentChar.HarmBP(tech.boosts);
     }
 
-    public void Tech(TechData tech, CombattantScript combattant)
+    public IEnumerator Tech(TechData tech, CombattantScript combattant)
     {
+        float totalTime = time;
+        
+        if (tech.subtarget != "" && tech.subtarget != null)
+        {
+            totalTime = time * 2;
+        }
+        else
+        {
+            totalTime = time;
+        }
+
         if(tech.health < currentChar.HP && tech.energy < currentChar.EP && tech.boosts < currentChar.BP)
         {
             SpendPoints(tech, currentChar);
@@ -233,7 +380,9 @@ public class BattleMenu : MonoBehaviour
                     
                     selectedCharacter = currentChar;
 
-                    DefensiveTech(tech, selectedCharacter);
+                    StartCoroutine(DefensiveTech(tech, selectedCharacter));
+
+                    yield return new WaitForSeconds(totalTime);
 
                     break;
                 }
@@ -246,7 +395,9 @@ public class BattleMenu : MonoBehaviour
 
                     selectedEnemy = targetEnemy;
 
-                    OffensiveTech(tech, targetEnemy);
+                    StartCoroutine(OffensiveTech(tech, targetEnemy));
+
+                    yield return new WaitForSeconds(totalTime);
 
                     break;
                 }
@@ -261,7 +412,9 @@ public class BattleMenu : MonoBehaviour
                             
                             selectedEnemy = encounter.tempEnemies[i];
                             
-                            OffensiveTech(tech, encounter.tempEnemies[i]);
+                            StartCoroutine(OffensiveTech(tech, encounter.tempEnemies[i]));
+
+                            yield return new WaitForSeconds(totalTime);
                         }
                     }
 
@@ -276,7 +429,9 @@ public class BattleMenu : MonoBehaviour
 
                     selectedCharacter = targetAlly;
 
-                    DefensiveTech(tech, targetAlly);
+                    StartCoroutine(DefensiveTech(tech, targetAlly));
+
+                    yield return new WaitForSeconds(totalTime);
 
                     break;
                 }
@@ -291,7 +446,9 @@ public class BattleMenu : MonoBehaviour
 
                             selectedCharacter = party.tempMembers[i];
 
-                            DefensiveTech(tech, party.tempMembers[i]);
+                            StartCoroutine(DefensiveTech(tech, party.tempMembers[i]));
+
+                            yield return new WaitForSeconds(totalTime);
                         }
                     }
 
@@ -306,7 +463,9 @@ public class BattleMenu : MonoBehaviour
 
                     selectedCharacter = targetAlly;
                     
-                    DefensiveTech(tech, targetAlly);
+                    StartCoroutine(DefensiveTech(tech, targetAlly));
+
+                    yield return new WaitForSeconds(totalTime);
 
                     break;
                 }
@@ -321,7 +480,9 @@ public class BattleMenu : MonoBehaviour
                             
                             selectedCharacter = party.tempMembers[i];
                             
-                            DefensiveTech(tech, party.tempMembers[i]);
+                            StartCoroutine(DefensiveTech(tech, party.tempMembers[i]));
+
+                            yield return new WaitForSeconds(totalTime);
                         }
                     }
 
@@ -330,7 +491,9 @@ public class BattleMenu : MonoBehaviour
 
                 case "Summon":
                 {
-                    DefensiveTech(tech, currentChar);
+                    StartCoroutine(DefensiveTech(tech, currentChar));
+
+                    yield return new WaitForSeconds(totalTime);
 
                     break;
                 }
@@ -341,9 +504,11 @@ public class BattleMenu : MonoBehaviour
                 }
             }
         }
+
+        EndTurn();
     }
 
-    public void OffensiveTech(TechData tech, EnemyData enemy)
+    public IEnumerator OffensiveTech(TechData tech, EnemyData enemy)
     {
         switch (tech.effect)
         {
@@ -355,7 +520,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentOffence(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+                        
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -364,7 +535,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentDefence(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -373,7 +550,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentAccuracy(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -382,7 +565,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentEvasion(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -391,7 +580,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentLuck(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -400,7 +595,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentSpeed(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -409,7 +610,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentEnergyOffence(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -418,7 +625,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentEnergyDefence(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -427,7 +640,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentSupport(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -436,7 +655,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentStamina(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -445,7 +670,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentVigour(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -454,7 +685,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         enemy.AugmentVitality(-currentChar.Support() - tech.energy - currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(AugmentText(enemy.sub, tech.type, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -474,7 +711,13 @@ public class BattleMenu : MonoBehaviour
 
                 enemy.PhysicalAttack((currentChar.Offence() + tech.energy + currentChar.boost), (currentChar.Accuracy() + tech.energy + currentChar.boost), (currentChar.Luck() + tech.energy + currentChar.boost), tech.type);
 
-                Subtech(tech, enemy.sub);
+                StartCoroutine(TechAttackText(enemy.sub, tech.type, enemy.enemyName));
+
+                yield return new WaitForSeconds(time);
+
+                StartCoroutine(Subtech(tech, enemy.sub));
+
+                yield return new WaitForSeconds(time);
 
                 break;
             }
@@ -485,7 +728,13 @@ public class BattleMenu : MonoBehaviour
 
                 enemy.EnergyAttack((currentChar.EnergyOffence() + tech.energy + currentChar.boost), tech.type);
 
-                Subtech(tech, enemy.sub);
+                StartCoroutine(TechAttackText(enemy.sub, tech.type, enemy.enemyName));
+
+                yield return new WaitForSeconds(time);
+
+                StartCoroutine(Subtech(tech, enemy.sub));
+
+                yield return new WaitForSeconds(time);
 
                 break;
             }
@@ -500,7 +749,13 @@ public class BattleMenu : MonoBehaviour
 
                         enemy.HarmHP(currentChar.Support() + tech.health + currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(HealthText(enemy.sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -511,7 +766,13 @@ public class BattleMenu : MonoBehaviour
 
                         enemy.HarmEP(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(EnergyText(enemy.sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -522,7 +783,13 @@ public class BattleMenu : MonoBehaviour
 
                         enemy.HarmBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost);
 
-                        Subtech(tech, enemy.sub);
+                        StartCoroutine(BoostText(enemy.sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, enemy.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -543,7 +810,7 @@ public class BattleMenu : MonoBehaviour
         }
     }
 
-    public void DefensiveTech(TechData tech, CharacterData ally)
+    public IEnumerator DefensiveTech(TechData tech, CharacterData ally)
     {
         switch (tech.effect)
         {
@@ -555,7 +822,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentOffence(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -564,7 +837,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentDefence(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -573,7 +852,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentAccuracy(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -582,7 +867,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentEvasion(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -591,7 +882,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentLuck(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -600,7 +897,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentSpeed(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -609,7 +912,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentEnergyOffence(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -618,7 +927,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentEnergyDefence(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -627,7 +942,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentSupport(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -636,7 +957,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentStamina(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -645,7 +972,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentVigour(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -654,7 +987,13 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentVitality(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(AugmentText(ally.sub, tech.type, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -678,7 +1017,13 @@ public class BattleMenu : MonoBehaviour
 
                         ally.HealHP(currentChar.Support() + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(HealthText(ally.sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -689,7 +1034,13 @@ public class BattleMenu : MonoBehaviour
 
                         ally.HealEP(currentChar.Support() + tech.health + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(HealthText(ally.sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -700,7 +1051,13 @@ public class BattleMenu : MonoBehaviour
 
                         ally.HealBP(currentChar.Support() + tech.health + tech.energy + currentChar.boost);
 
-                        Subtech(tech, ally.sub);
+                        StartCoroutine(HealthText(ally.sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
+                        StartCoroutine(Subtech(tech, ally.sub));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -716,14 +1073,14 @@ public class BattleMenu : MonoBehaviour
 
             case "Summon":
             {
-                Subtech(tech, 0);
+                StartCoroutine(Subtech(tech, 0));
 
                 break;
             }
         }
     }
 
-    public void Subtech(TechData tech, int sub)
+    public IEnumerator Subtech(TechData tech, int sub)
     {
         if (tech.subtarget != "" && tech.subtarget != null)
         {
@@ -738,14 +1095,18 @@ public class BattleMenu : MonoBehaviour
                 {
                     selectedCharacter = currentChar;
 
-                    DefensiveSubtech(tech, selectedCharacter, sub);
+                    StartCoroutine(DefensiveSubtech(tech, selectedCharacter, sub));
+
+                    yield return new WaitForSeconds(time);
 
                     break;
                 }
                 
                 case "Enemy":
                 {
-                    OffensiveSubtech(tech, selectedEnemy, sub);
+                    StartCoroutine(OffensiveSubtech(tech, selectedEnemy, sub));
+
+                    yield return new WaitForSeconds(time);
 
                     break;
                 }
@@ -756,7 +1117,9 @@ public class BattleMenu : MonoBehaviour
                     {
                         if(encounter.tempEnemies[i].HP > 0)
                         {
-                            OffensiveSubtech(tech, encounter.tempEnemies[i], sub);
+                            StartCoroutine(OffensiveSubtech(tech, encounter.tempEnemies[i], sub));
+
+                            yield return new WaitForSeconds(time);
                         }
                     }
 
@@ -765,7 +1128,9 @@ public class BattleMenu : MonoBehaviour
 
                 case "Ally":
                 {
-                    DefensiveSubtech(tech, selectedCharacter, sub);
+                    StartCoroutine(DefensiveSubtech(tech, selectedCharacter, sub));
+
+                    yield return new WaitForSeconds(time);
 
                     break;
                 }
@@ -776,7 +1141,9 @@ public class BattleMenu : MonoBehaviour
                     {
                         if(party.tempMembers[i].HP > 0)
                         {
-                            DefensiveSubtech(tech, party.tempMembers[i], sub);
+                            StartCoroutine(DefensiveSubtech(tech, party.tempMembers[i], sub));
+
+                            yield return new WaitForSeconds(time);
                         }
                     }
 
@@ -785,7 +1152,9 @@ public class BattleMenu : MonoBehaviour
 
                 case "Dead Ally":
                 {
-                    DefensiveSubtech(tech, selectedCharacter, sub);
+                    StartCoroutine(DefensiveSubtech(tech, selectedCharacter, sub));
+
+                    yield return new WaitForSeconds(time);
 
                     break;
                 }
@@ -796,7 +1165,9 @@ public class BattleMenu : MonoBehaviour
                     {
                         if(party.tempMembers[i].HP < 0)
                         {
-                            DefensiveSubtech(tech, party.tempMembers[i], sub);
+                            StartCoroutine(DefensiveSubtech(tech, party.tempMembers[i], sub));
+
+                            yield return new WaitForSeconds(time);
                         }
                     }
 
@@ -805,7 +1176,9 @@ public class BattleMenu : MonoBehaviour
 
                 case "Summon":
                 {
-                    DefensiveSubtech(tech, currentChar, 0);
+                    StartCoroutine(DefensiveSubtech(tech, currentChar, 0));
+
+                    yield return new WaitForSeconds(time);
 
                     break;
                 }
@@ -818,7 +1191,7 @@ public class BattleMenu : MonoBehaviour
         }
     }
 
-    public void OffensiveSubtech(TechData tech, EnemyData enemy, int sub)
+    public IEnumerator OffensiveSubtech(TechData tech, EnemyData enemy, int sub)
     {
         switch (tech.subeffect)
         {
@@ -828,108 +1201,156 @@ public class BattleMenu : MonoBehaviour
                 {
                     case "Offence":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
 
                         enemy.AugmentOffence(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+                        
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Defence":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
 
                         enemy.AugmentDefence(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Accuracy":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentAccuracy(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Evasion":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentEvasion(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Luck":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentLuck(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Speed":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentSpeed(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Energy Offence":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentEnergyOffence(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Energy Defence":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentEnergyDefence(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Support":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentSupport(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Stamina":
                     {
-                        sub = sub / 10;
-                        
+                        //sub = sub / 10;
+
                         enemy.AugmentStamina(-sub);
+                        
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Vigour":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentVigour(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Vitality":
                     {
-                        sub = sub / 10;
+                        //sub = sub / 10;
                         
                         enemy.AugmentVitality(-sub);
+
+                        StartCoroutine(AugmentText(-sub, tech.subtype, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -947,12 +1368,20 @@ public class BattleMenu : MonoBehaviour
             {
                 enemy.PhysicalAttack((currentChar.Offence() + tech.energy + currentChar.boost), (currentChar.Accuracy() + tech.energy + currentChar.boost), (currentChar.Luck() + tech.energy + currentChar.boost), tech.type);
 
+                StartCoroutine(TechAttackText(sub, tech.subtype, enemy.enemyName));
+
+                yield return new WaitForSeconds(time);
+
                 break;
             }
 
             case "Energy Attack":
             {
                 enemy.EnergyAttack((currentChar.EnergyOffence() + tech.energy + currentChar.boost), tech.type);
+
+                StartCoroutine(TechAttackText(sub, tech.subtype, enemy.enemyName));
+
+                yield return new WaitForSeconds(time);
 
                 break;
             }
@@ -962,28 +1391,34 @@ public class BattleMenu : MonoBehaviour
                 switch(tech.subtype)
                 {
                     case "Health":
-                    {
-                        sub = sub / 100;
-                        
+                    {   
                         enemy.HarmHP(sub);
+
+                        StartCoroutine(HealthText(-sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Energy":
                     {
-                        sub = sub / 100;
-
                         enemy.HarmEP(sub);
+
+                        StartCoroutine(EnergyText(-sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
 
                     case "Boost":
                     {
-                        sub = sub / 100;
-
                         enemy.HarmBP(sub);
+
+                        StartCoroutine(BoostText(-sub, enemy.enemyName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1006,7 +1441,7 @@ public class BattleMenu : MonoBehaviour
         //EndTurn();
     }
 
-    public void DefensiveSubtech(TechData tech, CharacterData ally, int sub)
+    public IEnumerator DefensiveSubtech(TechData tech, CharacterData ally, int sub)
     {
         switch (tech.subeffect)
         {
@@ -1018,12 +1453,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentOffence(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Defence":
                     {
                         ally.AugmentDefence(sub);
+
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1032,6 +1475,10 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentAccuracy(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
@@ -1039,12 +1486,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentEvasion(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Luck":
                     {
                         ally.AugmentLuck(sub);
+                        
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1053,12 +1508,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentSpeed(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Energy Offence":
                     {
                         ally.AugmentEnergyOffence(sub);
+
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1067,12 +1530,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentEnergyDefence(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Support":
                     {
                         ally.AugmentSupport(sub);
+
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1081,6 +1552,10 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentStamina(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
@@ -1088,12 +1563,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.AugmentVigour(sub);
 
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Vitality":
                     {
                         ally.AugmentVitality(sub);
+
+                        StartCoroutine(AugmentText(sub, tech.subtype, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1115,6 +1598,10 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.HealHP(sub);
 
+                        StartCoroutine(HealthText(sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
@@ -1122,12 +1609,20 @@ public class BattleMenu : MonoBehaviour
                     {
                         ally.HealEP(sub);
 
+                        StartCoroutine(HealthText(sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
+
                         break;
                     }
 
                     case "Boost":
                     {
                         ally.HealBP(sub);
+
+                        StartCoroutine(HealthText(sub, ally.characterName));
+
+                        yield return new WaitForSeconds(time);
 
                         break;
                     }
@@ -1168,6 +1663,25 @@ public class BattleMenu : MonoBehaviour
             {
                 currentChar.Boost(-5);
             }
+        }
+
+        if(currentChar)
+        {
+            boostMenu.SetActive(true);
+
+            if(currentChar.BP < currentChar.level * 5)
+            {
+                boostText.text = currentChar.boost.ToString() + " / " + currentChar.maxBP;
+            }
+            else
+            {
+                int boostNo = currentChar.level * 5;
+                boostText.text = currentChar.boost.ToString() + " / " + boostNo.ToString();
+            }
+        }
+        else
+        {
+            boostMenu.SetActive(false);
         }
 
         // change the boost slider

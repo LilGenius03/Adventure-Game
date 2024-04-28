@@ -25,4 +25,7 @@ MonoBehaviour:
   - Spear
   - Scythe
   techs:
-  - {fileID: 11400000, guid: 4bb288879faade94a965276d4e74e1e2, type: 2}
+  - {fileID: 11400000, guid: 6a50259ee6888d349ab8db7c0d621d8d, type: 2}
+  - {fileID: 11400000, guid: 9a928aa02310fde40a76d95fe7845fd7, type: 2}
+  - {fileID: 11400000, guid: 9f2c28c3950333c48893a39b37801e15, type: 2}
+  - {fileID: 11400000, guid: 9eb0809ed21269641bab69d6bf885595, type: 2}

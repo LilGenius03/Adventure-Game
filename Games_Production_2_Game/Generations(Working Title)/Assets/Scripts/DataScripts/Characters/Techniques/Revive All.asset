@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4120714fc5c4c0c499c6adf844d9737d, type: 3}
   m_Name: Revive All
   m_EditorClassIdentifier: 
-  title: Revive
+  title: Revive All
   description: Revive All Allies
   target: Allies
   effect: Heal

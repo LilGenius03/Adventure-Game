@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4120714fc5c4c0c499c6adf844d9737d, type: 3}
-  m_Name: Radiance All
+  m_Name: Shadow One
   m_EditorClassIdentifier: 
-  title: Radiance Al
-  description: Deal Radiant Damage to All Enemies
-  target: Enemies
+  title: Shadow One
+  description: Deal Shadow Damage
+  target: Enemy
   effect: Energy Attack
-  type: Radiance
-  subtarget: Self
-  subeffect: Buff
+  type: Shadow
+  subtarget: Enemy
+  subeffect: Debuff
   subtype: Energy Offence
   level: 0
   health: 0

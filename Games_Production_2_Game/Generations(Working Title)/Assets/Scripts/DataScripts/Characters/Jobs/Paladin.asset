@@ -27,4 +27,7 @@ MonoBehaviour:
   - Water
   - Ice
   techs:
-  - {fileID: 11400000, guid: e1544f962d88a9c4f95762a6c36d066c, type: 2}
+  - {fileID: 11400000, guid: 3eb2518580c32bb489566d60d5bdcac4, type: 2}
+  - {fileID: 11400000, guid: daeb14c723b70f842972b500b0900f0c, type: 2}
+  - {fileID: 11400000, guid: b05ba14e06a1f324e86f12846d58f7d1, type: 2}
+  - {fileID: 11400000, guid: ddf78d8b835c5e74db40d92859869d28, type: 2}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Revive
   description: Revive 1 Ally
-  target: Ally
+  target: Dead Ally
   effect: Heal
   type: Health
   subtarget: 

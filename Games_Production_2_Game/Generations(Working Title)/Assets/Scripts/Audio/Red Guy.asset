@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37abd629b61cd64c937fc76fdddea5d, type: 3}
-  m_Name: Red_Guy
+  m_Script: {fileID: 11500000, guid: 52f5efad37a66b04abcb76bf09e1c120, type: 3}
+  m_Name: Red Guy
   m_EditorClassIdentifier: 
-  ID: Red_Guy
+  id: Red_Guy
   dialogueTypingSoundClips:
-  - {fileID: 8300000, guid: c67518bfafe8b4c43b28dc9dd05d5ec1, type: 3}
+  - {fileID: 8300000, guid: 48c6f43b128848847b9cf762a5796d18, type: 3}
   frequencyLevel: 2
   minPitch: 0.5
-  maxPitch: 2
+  maxPitch: 3
   stopAudioSource: 0

@@ -21,15 +21,13 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("Globals Ink File")]
     [SerializeField] private InkFile globalsInkFile;
 
-    [Header("Boolean Options")]
-    private bool canFollow;
 
     [Header("Audio")]
     private AudioSource audioSource;
-    [SerializeField] private Dialogue_Audio_Info_SO defaultAudioInfo;
-    [SerializeField] private Dialogue_Audio_Info_SO[] audioInfos;
-    private Dictionary<string, Dialogue_Audio_Info_SO> audioInfoDictionary;
-    private Dialogue_Audio_Info_SO currentAudioInfo;
+    [SerializeField] private DialogueAudioInfoSO defaultAudioInfo;
+    [SerializeField] private DialogueAudioInfoSO[] audioInfos;
+    private Dictionary<string, DialogueAudioInfoSO> audioInfoDictionary;
+    private DialogueAudioInfoSO currentAudioInfo;
     [SerializeField] private bool makePredictable;
 
     private Story currentStory;
@@ -40,7 +38,7 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("PlayerRef")]
     private PlayerMovement_Script playerMovement_Script;
     [SerializeField] GameObject Player;
-    //private Follow_AI follow;
+    private Follow_AI followAI;
 
     [Header("Choices")]
     [SerializeField] private GameObject[] choices;
@@ -51,7 +49,7 @@ public class Dialogue_Manager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string AUDIO_TAG = "audio";
-    private const string PARTY_TAG = "PartyMember";
+    private const string PARTY_TAG = "JoinParty";
     private Dialogue_Variables dialogueVariables;
     private void Awake()
     {
@@ -64,7 +62,17 @@ public class Dialogue_Manager : MonoBehaviour
        playerMovement_Script = Player.GetComponent<PlayerMovement_Script>();
        audioSource = this.gameObject.AddComponent<AudioSource>();
        currentAudioInfo = defaultAudioInfo;
-       //follow.GetComponent<Follow_AI>();
+       followAI = FindAnyObjectByType<Follow_AI>();
+
+        if(followAI == null)
+        {
+            Debug.LogError("Follow_AI script not found in the scene!");
+        }
+
+        if(followAI != null)
+        {
+            followAI.FollowPlayer();
+        }
 
         dialogueVariables = new Dialogue_Variables(globalsInkFile.filePath);
     }
@@ -95,17 +103,17 @@ public class Dialogue_Manager : MonoBehaviour
 
     private void InitializeAudioInfoDictionary()
     {
-        audioInfoDictionary = new Dictionary<string, Dialogue_Audio_Info_SO>();
-        audioInfoDictionary.Add(defaultAudioInfo.ID, defaultAudioInfo);
-        foreach(Dialogue_Audio_Info_SO audioInfo in audioInfos)
+        audioInfoDictionary = new Dictionary<string, DialogueAudioInfoSO>();
+        audioInfoDictionary.Add(defaultAudioInfo.id, defaultAudioInfo);
+        foreach (DialogueAudioInfoSO audioInfo in audioInfos)
         {
-            audioInfoDictionary.Add(audioInfo.ID, audioInfo);
+            audioInfoDictionary.Add(audioInfo.id, audioInfo);
         }
     }
 
     private void SetCurrentAudioInfo(string id)
     {
-        Dialogue_Audio_Info_SO audioInfo = null;
+        DialogueAudioInfoSO audioInfo = null;
         audioInfoDictionary.TryGetValue(id, out audioInfo);
         Debug.Log("Audio ID: " + id);
         if (audioInfo != null)
@@ -187,6 +195,11 @@ public class Dialogue_Manager : MonoBehaviour
                     float predictablePitch = predictablePitchInt / 100f;
                     audioSource.pitch = predictablePitch;
                 }
+
+                else
+                {
+                    audioSource.pitch = minPitch;
+                }
             }
 
             else
@@ -234,7 +247,7 @@ public class Dialogue_Manager : MonoBehaviour
         dialogueVariables.StopListening(currentStory);
 
         //go back to default audio
-        SetCurrentAudioInfo(defaultAudioInfo.ID);
+        SetCurrentAudioInfo(defaultAudioInfo.id);
     }
 
     private void ContinueStory()
@@ -290,9 +303,8 @@ public class Dialogue_Manager : MonoBehaviour
                     SetCurrentAudioInfo(tagValue);
                     break;
                 default:
-                //case PARTY_TAG:
-                    //follow.FollowPlayer();
-                    //break;
+                case PARTY_TAG:
+                    followAI.JoinParty();
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
             }

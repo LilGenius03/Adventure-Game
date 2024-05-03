@@ -17,8 +17,7 @@ Can I join your party?
 
 === NPC_1_result_1 ===
 ~ Character = "Red_Guy"
-~ CanJoinParty = 1
-I {Character} will not let you down! #PartyMember:Red_Guy #speaker:Red_Guy #portrait:Red_Guy #audio:Red_Guy 
+I {Character} will not let you down! #JoinParty:Red_Guy #PartyMember:Red_Guy #speaker:Red_Guy #portrait:Red_Guy #audio:Red_Guy 
 -> END
 
 === NPC_1_result_2 ===

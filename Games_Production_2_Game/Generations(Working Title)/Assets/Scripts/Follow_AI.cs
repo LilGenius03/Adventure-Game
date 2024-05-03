@@ -9,24 +9,31 @@ public class Follow_AI : MonoBehaviour
 {
     [Header("References")]
     public GameObject target;
+    private Dialogue_Trigger DTrigger;
 
     [Header("Settings")]
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
     private float DistanceBetweenObjects;
     [SerializeField] private float AllyDistance;
-    // Start is called before the first frame update
-    void Start()
+
+    private bool isInParty = false;
+
+    private void Start()
     {
-       
+        DTrigger = GetComponentInChildren<Dialogue_Trigger>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        FollowPlayer();
-        DistanceBetweenObjects = Vector2.Distance(transform.position, target.transform.position);
-        Stop();
+
+        if(isInParty)
+        {
+            FollowPlayer();
+            DistanceBetweenObjects = Vector2.Distance(transform.position, target.transform.position);
+            Stop();
+        }
     }
 
     public void FollowPlayer()
@@ -64,6 +71,12 @@ public class Follow_AI : MonoBehaviour
             rotationSpeed = 0;
             transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0, 0));
         }
+    }
+
+    public void JoinParty()
+    {
+        isInParty = true;
+        Destroy(DTrigger);
     }
 
 }

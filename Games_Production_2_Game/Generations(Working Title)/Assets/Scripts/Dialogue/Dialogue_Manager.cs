@@ -107,9 +107,10 @@ public class Dialogue_Manager : MonoBehaviour
     {
         Dialogue_Audio_Info_SO audioInfo = null;
         audioInfoDictionary.TryGetValue(id, out audioInfo);
+        Debug.Log("Audio ID: " + id);
         if (audioInfo != null)
         {
-          this.currentAudioInfo = audioInfo;  
+           this.currentAudioInfo = audioInfo;
         }
         else
         {

@@ -4867,10 +4867,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1862678933239304606, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862678933239304606, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.98
       objectReference: {fileID: 0}
@@ -4910,10 +4906,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3552377349152550234, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5823009557456085025, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
       propertyPath: Player
       value: 
@@ -4926,22 +4918,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 7748753126087825471, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7748753126087825471, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -4.9599915
-      objectReference: {fileID: 0}
-    - target: {fileID: 7748753126087825471, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 3.651001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7748753126087825471, guid: fd45fd9c3142c85459f2fa72f36b5870, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

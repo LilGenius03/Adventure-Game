@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461838cc9ea28744fa9449d2d8079be5, type: 3}
+  m_Name: Wizard
+  m_EditorClassIdentifier: 
+  characterName: Merlin
+  jobName: Wizard
+  stats: fefffffffffffffffeffffffffffffffffffffff010000000200000002000000010000000100000002000000feffffff
+  proficiency:
+  - Dagger
+  - Staff
+  resistance:
+  - Fire
+  - Ice
+  vulnerability:
+  - Spear
+  - Scythe
+  techs:
+  - {fileID: 11400000, guid: 6a50259ee6888d349ab8db7c0d621d8d, type: 2}
+  - {fileID: 11400000, guid: 9a928aa02310fde40a76d95fe7845fd7, type: 2}
+  - {fileID: 11400000, guid: 9f2c28c3950333c48893a39b37801e15, type: 2}
+  - {fileID: 11400000, guid: 9eb0809ed21269641bab69d6bf885595, type: 2}

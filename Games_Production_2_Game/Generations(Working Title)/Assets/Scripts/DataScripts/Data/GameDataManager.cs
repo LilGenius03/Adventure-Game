@@ -15,6 +15,8 @@ public class GameDataManager : MonoBehaviour
     public PartyManager party;
     public InventoryManager inventory;
     public ProgressManager progress;
+    public EncounterManager encounter;
+    public bool battle;
     
     public GameData gameData;
     public static GameDataManager instance;
@@ -34,6 +36,19 @@ public class GameDataManager : MonoBehaviour
     void Start()
     {
         dataFileHandler = new DataFileHandler(Application.persistentDataPath, fileName);
+    }
+
+    void Update()
+    {
+        if(battle)
+        {
+            foreach(CharacterData member in party.members)
+            {
+                member.battle = battle;
+            }
+            battle = false;
+            //SceneManager.LoadScene("Battle Scene");
+        }
     }
 
     public void NewGame(int slot)
@@ -84,5 +99,10 @@ public class GameDataManager : MonoBehaviour
     private void OnApplicationQuit()
     {
 
+    }
+
+    public void StartBattle()
+    {
+        SceneManager.LoadScene(progress.battleScene);
     }
 }

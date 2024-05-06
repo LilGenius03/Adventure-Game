@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8330730153828311468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6226152479710896884}
+  - component: {fileID: 4613982913281044399}
+  - component: {fileID: 7691876655375369457}
+  - component: {fileID: 1298628489814661507}
+  m_Layer: 0
+  m_Name: Lancelot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6226152479710896884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330730153828311468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4613982913281044399
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330730153828311468}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &7691876655375369457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330730153828311468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4626193c6f8af46970a7764268feba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: Lancelot
+  baseStats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  statMods: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  equipmentStats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  totalStats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  augmentedStats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  level: 20
+  maxBP: 0
+  maxEP: 0
+  maxHP: 0
+  maxXP: 0
+  BP: 0
+  EP: 0
+  HP: 0
+  XP: 0
+  boost: 0
+  primaryJob: {fileID: 11400000, guid: e144e495799e28945ac2ea0385e80117, type: 2}
+  secondaryJob: {fileID: 0}
+  weaponSlot: {fileID: 1715318774271979951, guid: b963fbeb58ba2a04a969872dd8e4b112, type: 3}
+  shieldSlot: {fileID: 0}
+  headSlot: {fileID: 0}
+  bodySlot: {fileID: 0}
+  feetSlot: {fileID: 0}
+  accessorySlot: {fileID: 0}
+  summon: {fileID: 0}
+  summonPos: {fileID: 0}
+  overworldSprite: {fileID: 0}
+  battleSprite: {fileID: 0}
+  spriteRenderer: {fileID: 4613982913281044399}
+  battle: 1
+  proficiency: []
+  resistance: []
+  vulnerability: []
+  techs: []
+  combattantScript: {fileID: 1298628489814661507}
+--- !u!114 &1298628489814661507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330730153828311468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94cb2d2038d9644fa738b9e24d27e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedStat: 0
+  initiative: 0

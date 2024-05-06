@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461838cc9ea28744fa9449d2d8079be5, type: 3}
+  m_Name: Template
+  m_EditorClassIdentifier: 
+  characterName: Template
+  jobName: Template
+  stats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  proficiency:
+  - Claw
+  - Dagger
+  - Club
+  - Sword
+  - Staff
+  - Spear
+  - Axe
+  - Hammer
+  - Scythe
+  - Flail
+  - Boomerang
+  - Bow
+  resistance:
+  - Claw
+  - Dagger
+  - Club
+  - Sword
+  - Staff
+  - Spear
+  - Axe
+  - Hammer
+  - Scythe
+  - Flail
+  - Boomerang
+  - Bow
+  - Air
+  - Earth
+  - Fire
+  - Water
+  - Lightning
+  - Ice
+  - Poison
+  - Psychic
+  - Radiance
+  - Shadow
+  - Sound
+  - Force
+  vulnerability:
+  - Claw
+  - Dagger
+  - Club
+  - Sword
+  - Staff
+  - Spear
+  - Axe
+  - Hammer
+  - Scythe
+  - Flail
+  - Boomerang
+  - Bow
+  - Air
+  - Earth
+  - Fire
+  - Water
+  - Lightning
+  - Ice
+  - Poison
+  - Psychic
+  - Radiance
+  - Shadow
+  - Sound
+  - Force
+  techs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

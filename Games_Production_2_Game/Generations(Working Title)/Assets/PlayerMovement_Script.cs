@@ -48,7 +48,6 @@ public class PlayerMovement_Script : MonoBehaviour
 
         if(Input.GetKeyDown(Submit) && SubmitKeyPressed == false)
         {
-            Debug.Log("Space");
             SubmitKeyPressed = true;
         }
 
@@ -72,12 +71,20 @@ public class PlayerMovement_Script : MonoBehaviour
         if(Dialogue_Manager.GetInstance().dialogueIsPlaying)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            rotationSpeed = 0f;
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0,0));
             return;
         }
+
+        /*if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            transform.rotation = Quaternion.AngleAxis(0f, new Vector2(0, 0));
+        }*/
 
         else
         {
             rb.constraints = RigidbodyConstraints2D.None;
+            rotationSpeed = 10f;
         }
 
         if(Input.GetKeyDown(KeyCode.M) && MapOpen == false)

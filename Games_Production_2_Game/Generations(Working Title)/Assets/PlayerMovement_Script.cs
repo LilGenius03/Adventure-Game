@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class PlayerMovement_Script : MonoBehaviour
     [SerializeField] private GameObject Map;
     public KeyCode interact;
     public KeyCode Submit;
+    [SerializeField] ParticleSystem walkingParticleRightSide;
+    [SerializeField] ParticleSystem walkingParticleLeftSide;
 
     [Header("Bools")]
     private bool MapOpen;
@@ -66,6 +69,17 @@ public class PlayerMovement_Script : MonoBehaviour
             float angle = Mathf.Sin(Time.time * rotationSpeed) * 8;
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            walkingParticleLeftSide.Play();
+
+            if(angle == rotationSpeed)
+            {
+                walkingParticleRightSide.Play();
+            }
+
+            else if(angle == -rotationSpeed)
+            {
+                walkingParticleLeftSide.Play();
+            }
         }
 
         if(Dialogue_Manager.GetInstance().dialogueIsPlaying)

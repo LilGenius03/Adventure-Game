@@ -374,7 +374,7 @@ public class EnemyData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }
@@ -460,7 +460,7 @@ public class EnemyData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }
@@ -522,7 +522,7 @@ public class EnemyData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }

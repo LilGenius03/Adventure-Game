@@ -1042,7 +1042,7 @@ public class CharacterData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }
@@ -1128,7 +1128,7 @@ public class CharacterData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }
@@ -1190,7 +1190,7 @@ public class CharacterData : MonoBehaviour
 
         HP -= damage;
 
-        if(HP < maxHP)
+        if(HP < 0)
         {
             HP = 0;
         }

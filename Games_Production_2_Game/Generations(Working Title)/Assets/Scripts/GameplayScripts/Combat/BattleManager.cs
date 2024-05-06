@@ -70,6 +70,7 @@ public class BattleManager : MonoBehaviour
                 if(enemy.HP > 0)
                 {
                     won = false;
+                    //Debug.Log(won);
                 }
             }
 

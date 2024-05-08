@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VisualCue: {fileID: 3552377349152550234}
-  inkJSON: {fileID: 4900000, guid: 5734c8ee4d5e2ed4288303af1df39f0a, type: 3}
+  inkJSON: {fileID: 4900000, guid: 50a12dafce740f849a208578ed26de29, type: 3}
   Player: {fileID: 0}
 --- !u!1 &3552377349152550234
 GameObject:

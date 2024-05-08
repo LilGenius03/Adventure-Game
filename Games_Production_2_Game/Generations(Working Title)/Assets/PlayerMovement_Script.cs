@@ -71,7 +71,7 @@ public class PlayerMovement_Script : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             walkingParticleLeftSide.Play();
 
-            if(angle == rotationSpeed)
+            if(angle == transform.rotation.z)
             {
                 walkingParticleRightSide.Play();
             }

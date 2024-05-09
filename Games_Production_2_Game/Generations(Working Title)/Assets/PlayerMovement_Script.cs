@@ -13,20 +13,16 @@ public class PlayerMovement_Script : MonoBehaviour
     [Header("References")]
     private Rigidbody2D rb;
     private Vector2 moveDir;
-    [SerializeField] private GameObject Map;
     public KeyCode interact;
     public KeyCode Submit;
 
     [Header("Bools")]
-    private bool MapOpen;
     public bool keyPressed;
     public bool SubmitKeyPressed;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Map.SetActive(false);
-        MapOpen = false;
         keyPressed = false;
         SubmitKeyPressed = false;
     }
@@ -88,17 +84,6 @@ public class PlayerMovement_Script : MonoBehaviour
             rotationSpeed = 10f;
         }
 
-        if(Input.GetKeyDown(KeyCode.M) && MapOpen == false)
-        {
-            Map.SetActive(true);
-            MapOpen = true;
-        }
-
-        else if(Input.GetKeyDown(KeyCode.M) && MapOpen == true) 
-        {
-            MapOpen = false;
-            Map.SetActive(false);
-        }
 
     }
 }

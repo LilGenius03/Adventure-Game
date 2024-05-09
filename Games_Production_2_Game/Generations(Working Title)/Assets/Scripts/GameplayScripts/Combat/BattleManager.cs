@@ -247,7 +247,7 @@ public class BattleManager : MonoBehaviour
 
     void WinEncounter()
     {
-        SceneManager.LoadScene("battleLose");
+        SceneManager.LoadScene("battleWin");
 
         foreach(EnemyData enemy in encounter.enemies)
         {

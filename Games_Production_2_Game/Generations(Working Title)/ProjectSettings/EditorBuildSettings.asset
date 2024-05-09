@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 90794cd6f8a44d248bdbc1a01f87c84a
+  - enabled: 1
+    path: Assets/Scenes/KieronBattleTestScene.unity
+    guid: 40c617ac88e172643a70ca7dbf223429
+  - enabled: 1
     path: Assets/Scenes/Dialogue_Scene_Medivial.unity
     guid: a2b69dcf1c78f844e9d4ecb70652c76e
   - enabled: 1

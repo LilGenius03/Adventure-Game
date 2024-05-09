@@ -4,7 +4,7 @@ INCLUDE globals.ink
 VAR Character = ""
 -> NPC_1_Choice_1
 === NPC_1_Choice_1 ===
-Hello Friend #speaker:Red_Guy #portrait:Red_Guy #audio:Red_Guy
+Hello Friend #speaker: #portrait:Red_Guy #audio:Red_Guy
 I love the color Red
 Can I join your party?
 

@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VisualCue: {fileID: 3552377349152550234}
-  inkJSON: {fileID: 4900000, guid: 5734c8ee4d5e2ed4288303af1df39f0a, type: 3}
+  inkJSON: {fileID: 4900000, guid: 50a12dafce740f849a208578ed26de29, type: 3}
   Player: {fileID: 0}
 --- !u!1 &3552377349152550234
 GameObject:
@@ -127,8 +127,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -4.9599915, y: 3.651001}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -4.973999, y: 3.9450073}
+  m_SizeDelta: {x: 248.2361, y: 95.4651}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &654139454325366619
 CanvasRenderer:
@@ -160,8 +160,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: F to Interact
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3f1902ca0bc252d44b28820907f4c833, type: 2}
+  m_sharedMaterial: {fileID: -1454433770544431236, guid: 3f1902ca0bc252d44b28820907f4c833, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 10
   rotationSpeed: 10
   AllyDistance: 1.5
 --- !u!1 &9021288200976572943
@@ -407,8 +407,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1862678933239304606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -453,8 +453,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 374957c6e2c439742ab293968612a825, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

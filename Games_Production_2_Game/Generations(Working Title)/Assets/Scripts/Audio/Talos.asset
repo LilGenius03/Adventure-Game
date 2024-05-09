@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Talos
   dialogueTypingSoundClips:
-  - {fileID: 8300000, guid: c67518bfafe8b4c43b28dc9dd05d5ec1, type: 3}
+  - {fileID: 8300000, guid: 21ee5b63c9585e24c9f3675d9bd90a18, type: 3}
   frequencyLevel: 2
   minPitch: 0.5
   maxPitch: 3

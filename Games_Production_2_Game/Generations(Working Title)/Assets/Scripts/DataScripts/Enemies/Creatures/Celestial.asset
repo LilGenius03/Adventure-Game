@@ -24,4 +24,14 @@ MonoBehaviour:
   - Book
   - Ice
   - Lightning
+  resistanceIcon:
+  - {fileID: 21300000, guid: 418d9d2ad4b77bf46811a6ab4ded96d2, type: 3}
+  - {fileID: 21300000, guid: 7f23e41a34bb38e40921c9d99fe8ee8a, type: 3}
+  - {fileID: 21300000, guid: 71ac427848b95804dbc6434a357b3223, type: 3}
+  - {fileID: 21300000, guid: 459d787946951a041a32ae1f2ac265a3, type: 3}
+  vulnerabilityIcon:
+  - {fileID: 21300000, guid: 143e62393ea02bc4c8154ffd619e1e58, type: 3}
+  - {fileID: 21300000, guid: d7d58d04bdbc25b4fad5ae92e95c646d, type: 3}
+  - {fileID: 21300000, guid: e97c73bdb45a6884d9843b1bbe415db7, type: 3}
+  - {fileID: 21300000, guid: 711c58b0db5e7084486cc44892feb61b, type: 3}
   techs: []

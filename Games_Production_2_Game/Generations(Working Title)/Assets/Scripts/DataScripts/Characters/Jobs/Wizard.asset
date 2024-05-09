@@ -16,15 +16,19 @@ MonoBehaviour:
   jobName: Wizard
   stats: fefffffffffffffffeffffffffffffffffffffff010000000200000002000000010000000100000002000000feffffff
   proficiency:
-  - Dagger
-  - Staff
   - Book
   resistance:
   - Fire
   - Ice
   vulnerability:
-  - Spear
   - Scythe
+  proficiencyIcon:
+  - {fileID: 21300000, guid: d7d58d04bdbc25b4fad5ae92e95c646d, type: 3}
+  resistanceIcon:
+  - {fileID: 21300000, guid: 7d4b4dce79a8e444093f431a0abea3d7, type: 3}
+  - {fileID: 21300000, guid: e97c73bdb45a6884d9843b1bbe415db7, type: 3}
+  vulnerabilityIcon:
+  - {fileID: 21300000, guid: b56b8deb1b34a184b9f3d33f45f18e38, type: 3}
   techs:
   - {fileID: 11400000, guid: 6a50259ee6888d349ab8db7c0d621d8d, type: 2}
   - {fileID: 11400000, guid: 9a928aa02310fde40a76d95fe7845fd7, type: 2}

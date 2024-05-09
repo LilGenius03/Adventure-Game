@@ -12,6 +12,8 @@ public class JobData : ScriptableObject
     public List<string> proficiency;
     public List<string> resistance;
     public List<string> vulnerability;
-
+    public List<Sprite> proficiencyIcon;
+    public List<Sprite> resistanceIcon;
+    public List<Sprite> vulnerabilityIcon;
     public List<TechData> techs;
 }

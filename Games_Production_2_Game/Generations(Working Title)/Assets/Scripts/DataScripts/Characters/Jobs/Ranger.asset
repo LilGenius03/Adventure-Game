@@ -16,15 +16,17 @@ MonoBehaviour:
   jobName: Ranger
   stats: 01000000feffffff02000000010000000200000002000000fffffffffefffffffffffffffeffffffffffffff01000000
   proficiency:
-  - Axe
-  - Boomerang
   - Bow
   resistance:
   - Bow
-  - Air
   vulnerability:
-  - Hammer
   - Psychic
+  proficiencyIcon:
+  - {fileID: 21300000, guid: 143e62393ea02bc4c8154ffd619e1e58, type: 3}
+  resistanceIcon:
+  - {fileID: 21300000, guid: 143e62393ea02bc4c8154ffd619e1e58, type: 3}
+  vulnerabilityIcon:
+  - {fileID: 21300000, guid: deaf1f94b547ac14eb0d07f52fe5dfd0, type: 3}
   techs:
   - {fileID: 11400000, guid: 089df5df9d0ef614580794699311eed1, type: 2}
   - {fileID: 11400000, guid: b70fa0f782eca6f498822adcb54c62bc, type: 2}

@@ -30,6 +30,7 @@ public class Pause_Menu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         DialogueCanvas.SetActive(true);
+        Debug.Log("Play");
     }
 
     public void Quit()

@@ -9,7 +9,6 @@ public class Main_Menu : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject MainMenu;
-    [SerializeField] private AudioSource pauseMusic;
     [SerializeField] private AudioMixer audioMixer;
 
 
@@ -21,7 +20,7 @@ public class Main_Menu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        pauseMusic.Stop();
+        Debug.Log("quit");
     }
 
     public void Options()
@@ -40,6 +39,5 @@ public class Main_Menu : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         MainMenu.SetActive(true);
-        pauseMusic.Stop();
     }
 }

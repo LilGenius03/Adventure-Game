@@ -17,6 +17,9 @@ public class EnemyData : MonoBehaviour
     public List<string> proficiency;
     public List<string> resistance;
     public List<string> vulnerability;
+    public List<Sprite> proficiencyIcon;
+    public List<Sprite> resistanceIcon;
+    public List<Sprite> vulnerabilityIcon;
     public List<TechData> techs;
 
     public List<ItemData> drops;
@@ -120,6 +123,16 @@ public class EnemyData : MonoBehaviour
             vulnerability.Add(item);
         }
 
+        foreach(Sprite item in creatureData.resistanceIcon)
+        {
+            resistanceIcon.Add(item);
+        }
+
+        foreach(Sprite item in creatureData.vulnerabilityIcon)
+        {
+            vulnerabilityIcon.Add(item);
+        }
+
         foreach(TechData item in creatureData.techs)
         {
             if (level >= item.level)
@@ -178,6 +191,16 @@ public class EnemyData : MonoBehaviour
         foreach(string item in creatureData.vulnerability)
         {
             vulnerability.Add(item);
+        }
+
+        foreach(Sprite item in creatureData.resistanceIcon)
+        {
+            resistanceIcon.Add(item);
+        }
+
+        foreach(Sprite item in creatureData.vulnerabilityIcon)
+        {
+            vulnerabilityIcon.Add(item);
         }
 
         for (int i = 0; i < baseStats.Length; i++)

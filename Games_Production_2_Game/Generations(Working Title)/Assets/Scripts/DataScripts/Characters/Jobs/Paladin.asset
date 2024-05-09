@@ -16,16 +16,15 @@ MonoBehaviour:
   jobName: Paladin
   stats: 020000000200000001000000feffffff01000000feffffffffffffff02000000fffffffffeffffffffffffff01000000
   proficiency:
-  - Club
   - Sword
-  - Spear
-  - Hammer
-  resistance:
-  - Spear
-  - Hammer
+  resistance: []
   vulnerability:
-  - Water
   - Ice
+  proficiencyIcon:
+  - {fileID: 21300000, guid: 7f23e41a34bb38e40921c9d99fe8ee8a, type: 3}
+  resistanceIcon: []
+  vulnerabilityIcon:
+  - {fileID: 21300000, guid: e97c73bdb45a6884d9843b1bbe415db7, type: 3}
   techs:
   - {fileID: 11400000, guid: 3eb2518580c32bb489566d60d5bdcac4, type: 2}
   - {fileID: 11400000, guid: daeb14c723b70f842972b500b0900f0c, type: 2}

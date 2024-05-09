@@ -11,5 +11,7 @@ public class CreatureData : ScriptableObject
     public int[] stats = new int[12];
     public List<string> resistance;
     public List<string> vulnerability;
+    public List<Sprite> resistanceIcon;
+    public List<Sprite> vulnerabilityIcon;
     public List<TechData> techs;
 }

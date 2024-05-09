@@ -31,6 +31,9 @@ public class CharacterData : MonoBehaviour
     public List<string> proficiency;
     public List<string> resistance;
     public List<string> vulnerability;
+    public List<Sprite> proficiencyIcon;
+    public List<Sprite> resistanceIcon;
+    public List<Sprite> vulnerabilityIcon;
     public List<TechData> techs;
     public CombattantScript combattantScript;
 
@@ -132,6 +135,21 @@ public class CharacterData : MonoBehaviour
             vulnerability.Add(item);
         }
 
+        foreach(Sprite item in primaryJob.proficiencyIcon)
+        {
+            proficiencyIcon.Add(item);
+        }
+
+        foreach(Sprite item in primaryJob.resistanceIcon)
+        {
+            resistanceIcon.Add(item);
+        }
+
+        foreach(Sprite item in primaryJob.vulnerabilityIcon)
+        {
+            vulnerabilityIcon.Add(item);
+        }
+
         foreach(TechData item in primaryJob.techs)
         {
             if (level >= item.level)
@@ -204,6 +222,21 @@ public class CharacterData : MonoBehaviour
         foreach(string item in job.vulnerability)
         {
             vulnerability.Add(item);
+        }
+
+        foreach(Sprite item in job.proficiencyIcon)
+        {
+            proficiencyIcon.Add(item);
+        }
+
+        foreach(Sprite item in job.resistanceIcon)
+        {
+            resistanceIcon.Add(item);
+        }
+
+        foreach(Sprite item in job.vulnerabilityIcon)
+        {
+            vulnerabilityIcon.Add(item);
         }
 
         foreach(TechData item in job.techs)
@@ -417,6 +450,79 @@ public class CharacterData : MonoBehaviour
             }
         }
 
+        foreach(Sprite item in newJob.proficiencyIcon)
+        {
+            bool proficient = false;
+
+            foreach(Sprite prof in proficiencyIcon)
+            {
+                if(prof == item)
+                {
+                    proficient = true;
+                }
+            }
+
+            if(proficient != true)
+            {
+                proficiencyIcon.Add(item);
+            }
+        }
+
+        foreach(Sprite item in newJob.resistanceIcon)
+        {
+            bool resistant = false;
+
+            foreach(Sprite res in resistanceIcon)
+            {
+                if(res == item)
+                {
+                    resistant = true;
+                }
+            }
+
+            if(resistant != true)
+            {
+                resistanceIcon.Add(item);
+            }
+        }
+
+        foreach(Sprite item in newJob.vulnerabilityIcon)
+        {
+            bool vulnerable = false;
+
+            foreach(Sprite vul in vulnerabilityIcon)
+            {
+                if(vul == item)
+                {
+                    vulnerable = true;
+                }
+            }
+
+            if(vulnerable != true)
+            {
+                vulnerabilityIcon.Add(item);
+            }
+        }
+
+        foreach(Sprite res in resistanceIcon)
+        {
+            bool cancel = false;
+
+            foreach(Sprite vul in vulnerabilityIcon)
+            {
+                if (res == vul)
+                {
+                    cancel = true;
+                }
+            }
+
+            if(cancel)
+            {
+                resistanceIcon.Remove(res);
+                vulnerabilityIcon.Remove(res);
+            }
+        }
+
         foreach(TechData item in newJob.techs)
         {
             bool learnt = false;
@@ -546,6 +652,96 @@ public class CharacterData : MonoBehaviour
                 if(confirm)
                 {
                     vulnerability.Add(item);
+                }
+            }
+
+            foreach(Sprite item in secondaryJob.proficiencyIcon)
+            {
+                bool proficient = false;
+
+                foreach(Sprite prof in primaryJob.proficiencyIcon)
+                {
+                    if(prof == item)
+                    {
+                        proficient = true;
+                    }
+                }
+
+                if(proficient != true)
+                {
+                    proficiencyIcon.Remove(item);
+                }
+            }
+
+            foreach(Sprite item in secondaryJob.resistanceIcon)
+            {
+                bool resistant = false;
+
+                foreach(Sprite res in primaryJob.resistanceIcon)
+                {
+                    if(res == item)
+                    {
+                        resistant = true;
+                    }
+                }
+
+                if(resistant != true)
+                {
+                    resistanceIcon.Remove(item);
+                }
+            }
+
+            foreach(Sprite item in secondaryJob.vulnerabilityIcon)
+            {
+                bool vulnerable = false;
+
+                foreach(Sprite vul in primaryJob.vulnerabilityIcon)
+                {
+                    if(vul == item)
+                    {
+                        vulnerable = true;
+                    }
+                }
+
+                if(vulnerable != true)
+                {
+                    vulnerabilityIcon.Remove(item);
+                }
+            }
+
+            foreach(Sprite item in primaryJob.resistanceIcon)
+            {
+                bool confirm = true;
+
+                foreach(Sprite res in resistanceIcon)
+                {
+                    if (item == res)
+                    {
+                        confirm = false;
+                    }
+                }
+
+                if(confirm)
+                {
+                    resistanceIcon.Add(item);
+                }
+            }
+
+            foreach(Sprite item in primaryJob.vulnerabilityIcon)
+            {
+                bool confirm = true;
+
+                foreach(Sprite vul in vulnerabilityIcon)
+                {
+                    if (item == vul)
+                    {
+                        confirm = false;
+                    }
+                }
+
+                if(confirm)
+                {
+                    vulnerabilityIcon.Add(item);
                 }
             }
 

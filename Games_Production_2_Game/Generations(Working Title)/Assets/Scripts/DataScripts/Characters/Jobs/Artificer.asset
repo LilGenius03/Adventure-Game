@@ -16,20 +16,13 @@ MonoBehaviour:
   jobName: Artificer
   stats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   proficiency:
-  - Claw
-  - Dagger
-  - Club
-  - Sword
-  - Staff
-  - Spear
-  - Axe
-  - Hammer
-  - Scythe
-  - Flail
-  - Boomerang
-  - Bow
+  - Fist
   resistance: []
   vulnerability: []
+  proficiencyIcon:
+  - {fileID: 21300000, guid: 418d9d2ad4b77bf46811a6ab4ded96d2, type: 3}
+  resistanceIcon: []
+  vulnerabilityIcon: []
   techs:
   - {fileID: 11400000, guid: e1544f962d88a9c4f95762a6c36d066c, type: 2}
   - {fileID: 11400000, guid: b77964633b2583140a097ba36648c7e0, type: 2}

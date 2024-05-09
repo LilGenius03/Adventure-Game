@@ -19,7 +19,17 @@ public class Scene_Transistions_Script : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void TryAgain()
+    {
+        SceneManager.LoadScene("KieronBattleTestScene");
+    }
+
     public void BattleToCowboy()
+    {
+        SceneManager.LoadScene("battleWin");
+    }
+
+    public void WinToCowboy()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bow
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  title: Sword
-  description: Sword
+  title: Bow
+  description: Bow
   slot: Weapon
   stats: 140000000000000000000000000000000000000000000000ecffffff0000000000000000000000000000000000000000

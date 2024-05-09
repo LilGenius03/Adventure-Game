@@ -140,9 +140,9 @@ public class EnemyData : MonoBehaviour
         {
             totalStats[i] = baseStats[i];
             augmentedStats[i] = totalStats[i];
-            Debug.Log(baseStats[i]);
+            /*Debug.Log(baseStats[i]);
             Debug.Log(totalStats[i]);
-            Debug.Log(augmentedStats[i]);
+            Debug.Log(augmentedStats[i]);*/
         }
         maxBP = totalStats[9];
         maxEP = totalStats[10];

@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeName: Celestial
   stats: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  resistance: []
-  vulnerability: []
-  tech1: {fileID: 0}
-  tech2: {fileID: 0}
-  tech3: {fileID: 0}
-  tech4: {fileID: 0}
+  resistance:
+  - Fist
+  - Sword
+  - Radiance
+  - Shadow
+  vulnerability:
+  - Bow
+  - Book
+  - Ice
+  - Lightning
+  techs: []

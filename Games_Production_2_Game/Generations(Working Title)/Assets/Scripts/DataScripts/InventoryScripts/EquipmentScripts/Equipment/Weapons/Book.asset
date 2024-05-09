@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef2d3a03f170dd24886ba6f2ce1f6509, type: 3}
-  m_Name: Staff
+  m_Name: Book
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  title: Sword
-  description: Sword
+  title: Book
+  description: Book
   slot: Weapon
   stats: ecffffff0000000000000000000000000000000000000000140000000000000000000000000000000000000000000000

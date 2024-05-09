@@ -10,6 +10,7 @@ public class EnemyHandler : MonoBehaviour
     public CharacterData selectedCharacter;
     public TechData selectedTech;
     public BattleManager battle;
+    public Animator currentAnimator, targetAnimator;
     private float time = 3.0f;
 
     public int boost = 0;
@@ -34,6 +35,7 @@ public class EnemyHandler : MonoBehaviour
         int actionOptions = 0;
         int boostChoice = 0;
         boost = 0;
+        currentAnimator = currentEnemy.gameObject.GetComponent<Animator>();
 
         boostChoice = Random.Range(0, currentEnemy.level);
 
@@ -78,6 +80,12 @@ public class EnemyHandler : MonoBehaviour
                         {
                             int weaponChoice = Random.Range(0, currentEnemy.proficiency.Count);
                             party.tempMembers[i].Attack((currentEnemy.Offence() + boost), (currentEnemy.Accuracy() + boost), (currentEnemy.Luck() + boost), currentEnemy.proficiency[weaponChoice]);
+
+                            if(party.tempMembers[i].HP <= 0)
+                            {
+                                targetAnimator.SetBool("Dead", true);
+                            }
+
                             StartCoroutine(AttackText(party.tempMembers[i].sub, currentEnemy.proficiency[weaponChoice], party.tempMembers[i].characterName));
                         }
 
@@ -134,6 +142,9 @@ public class EnemyHandler : MonoBehaviour
         battle.textBox.SetActive(false);
         currentEnemy.BP -= currentEnemy.boost;
         currentEnemy.boost = 0;
+        currentAnimator.SetBool("Active", false);
+        currentAnimator = null;
+
         currentEnemy = null;
         battle.nextTurn = true;
     }
@@ -149,6 +160,7 @@ public class EnemyHandler : MonoBehaviour
         else
         {
             battle.text.text = currentEnemy.enemyName + " dealt " + damage.ToString() + " " + damageType + " damage to " + characterName;
+            
         }
         
         yield return new WaitForSeconds(time);
@@ -297,14 +309,16 @@ public class EnemyHandler : MonoBehaviour
                     characterChoice = Random.Range(0, actionOptions);
 
                     int characterNo = 0;
+                    bool acted = false;
 
                     for(int i = 0; i < party.tempMembers.Count; i++)
                     {
                         if(party.tempMembers[i].HP > 0)
                         {
-                            if(characterNo == characterChoice)
+                            if(characterNo == characterChoice && acted == false)
                             {
                                 StartCoroutine(Tech(tech, party.tempMembers[i].combattantScript));
+                                acted = true;
                             }
                             else
                             {
@@ -492,6 +506,9 @@ public class EnemyHandler : MonoBehaviour
 
     public IEnumerator OffensiveTech(TechData tech, CharacterData character)
     {
+        targetAnimator = character.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Harmed");
+
         switch (tech.effect)
         {
             case "Debuff":
@@ -691,6 +708,11 @@ public class EnemyHandler : MonoBehaviour
             {
                 character.PhysicalAttack((currentEnemy.Offence() + tech.energy + currentEnemy.boost), (currentEnemy.Accuracy() + tech.energy + currentEnemy.boost), (currentEnemy.Luck() + tech.energy + currentEnemy.boost), tech.type);
 
+                if(character.HP <= 0)
+                {
+                    targetAnimator.SetBool("Dead", true);
+                }
+
                 StartCoroutine(TechAttackText(character.sub, tech.type, character.characterName));
 
                 yield return new WaitForSeconds(time);
@@ -705,6 +727,11 @@ public class EnemyHandler : MonoBehaviour
             case "Energy Attack":
             {
                 character.EnergyAttack((currentEnemy.EnergyOffence() + tech.energy + currentEnemy.boost), tech.type);
+
+                if(character.HP <= 0)
+                {
+                    targetAnimator.SetBool("Dead", true);
+                }
 
                 StartCoroutine(TechAttackText(character.sub, tech.type, character.characterName));
 
@@ -724,6 +751,11 @@ public class EnemyHandler : MonoBehaviour
                     case "Health":
                     {
                         character.HarmHP(currentEnemy.Support() + tech.health + currentEnemy.boost);
+
+                        if(character.HP <= 0)
+                        {
+                            targetAnimator.SetBool("Dead", true);
+                        }
 
                         StartCoroutine(HealthText(character.sub,character.characterName));
 
@@ -784,6 +816,9 @@ public class EnemyHandler : MonoBehaviour
 
     public IEnumerator DefensiveTech(TechData tech, EnemyData ally)
     {
+        targetAnimator = ally.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Helped");
+
         switch (tech.effect)
         {
             case "Buff":
@@ -1135,6 +1170,9 @@ public class EnemyHandler : MonoBehaviour
 
     public IEnumerator OffensiveSubtech(TechData tech, CharacterData character, int sub)
     {
+        targetAnimator = character.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Harmed");
+
         switch (tech.subeffect)
         {
             case "Debuff":
@@ -1310,6 +1348,11 @@ public class EnemyHandler : MonoBehaviour
             {
                 character.PhysicalAttack((currentEnemy.Offence() + tech.energy + currentEnemy.boost), (currentEnemy.Accuracy() + tech.energy + currentEnemy.boost), (currentEnemy.Luck() + tech.energy + currentEnemy.boost), tech.type);
 
+                if(character.HP <= 0)
+                {
+                    targetAnimator.SetBool("Dead", true);
+                }
+
                 StartCoroutine(TechAttackText(sub, tech.subtype, character.characterName));
 
                 yield return new WaitForSeconds(time);
@@ -1320,6 +1363,11 @@ public class EnemyHandler : MonoBehaviour
             case "Energy Attack":
             {
                 character.EnergyAttack((currentEnemy.EnergyOffence() + tech.energy + currentEnemy.boost), tech.type);
+
+                if(character.HP <= 0)
+                {
+                    targetAnimator.SetBool("Dead", true);
+                }
 
                 StartCoroutine(TechAttackText(sub, tech.subtype, character.characterName));
 
@@ -1337,6 +1385,11 @@ public class EnemyHandler : MonoBehaviour
                         //sub = sub / 100;
                         
                         character.HarmHP(sub);
+
+                        if(character.HP <= 0)
+                        {
+                            targetAnimator.SetBool("Dead", true);
+                        }
 
                         StartCoroutine(HealthText(-sub, character.characterName));
 
@@ -1389,6 +1442,9 @@ public class EnemyHandler : MonoBehaviour
 
     public IEnumerator DefensiveSubtech(TechData tech, EnemyData ally, int sub)
     {
+        targetAnimator = ally.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Helped");
+
         switch (tech.subeffect)
         {
             case "Buff":

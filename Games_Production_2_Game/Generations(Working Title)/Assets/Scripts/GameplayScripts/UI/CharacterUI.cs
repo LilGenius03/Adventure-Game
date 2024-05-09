@@ -9,6 +9,7 @@ public class CharacterUI : MonoBehaviour
     public Slider HPSlider, EPSlider, BPSlider;
     public TMP_Text characterName, HPText, EPText, BPText;
     public int characterNo;
+    public CharacterData character;
     
     // Start is called before the first frame update
     void Start()
@@ -18,10 +19,24 @@ public class CharacterUI : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        characterName.text = GameDataManager.instance.party.members[characterNo].characterName;
-        HPText.text = GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().HP.ToString() + " / " + GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().maxHP.ToString();
-        EPText.text = GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().EP.ToString() + " / " + GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().maxEP.ToString();
-        BPText.text = GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().BP.ToString() + " / " + GameDataManager.instance.party.tempCharacters[characterNo].GetComponent<CharacterData>().maxBP.ToString();
+    {   
+        if(!character)
+        {
+            character = GameDataManager.instance.party.tempMembers[characterNo];
+            characterName.text = GameDataManager.instance.party.members[characterNo].characterName;
+        }
+        else
+        {
+            HPSlider.maxValue = character.maxHP;
+            HPSlider.value = character.HP;
+            EPSlider.maxValue = character.maxEP;
+            EPSlider.value = character.EP;
+            BPSlider.maxValue = character.maxBP;
+            BPSlider.value = character.BP;
+
+            HPText.text = character.HP.ToString() + " / " + character.maxHP.ToString();
+            EPText.text = character.EP.ToString() + " / " + character.maxEP.ToString();
+            BPText.text = character.BP.ToString() + " / " + character.maxBP.ToString();
+        }
     }
 }

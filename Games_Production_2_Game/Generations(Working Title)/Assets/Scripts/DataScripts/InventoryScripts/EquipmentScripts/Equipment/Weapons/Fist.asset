@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fist
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  title: Sword
-  description: Sword
+  title: Fist
+  description: Fist
   slot: Weapon
   stats: 00000000000000000000000000000000ecffffff00000000140000000000000000000000000000000000000000000000

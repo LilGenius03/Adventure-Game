@@ -143,7 +143,7 @@ public class CharacterData : MonoBehaviour
         for(int i = 0; i < 12; i++)
         {
             baseStats[i] = (5 + primaryJob.stats[i]) * level;
-            Debug.Log(baseStats[i]);
+            //Debug.Log(baseStats[i]);
         }
         baseStats[9] = baseStats[9] * 5;
         baseStats[10] = baseStats[10] * 2;
@@ -153,9 +153,9 @@ public class CharacterData : MonoBehaviour
         {
             totalStats[i] = baseStats[i];
             augmentedStats[i] = totalStats[i];
-            Debug.Log(baseStats[i]);
+            /*Debug.Log(baseStats[i]);
             Debug.Log(totalStats[i]);
-            Debug.Log(augmentedStats[i]);
+            Debug.Log(augmentedStats[i]);*/
         }
         maxBP = totalStats[9];
         maxEP = totalStats[10];

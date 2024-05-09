@@ -411,9 +411,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 655377483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b1fe4d506be1940a10c0b9e6682ad0, type: 3}
+  m_Script: {fileID: 11500000, guid: 709773afc804fcf4e87549ae7f889f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 0}
+  MainMenu: {fileID: 0}
+  audioMixer: {fileID: 0}
 --- !u!1 &898773523
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,8 +501,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 655377488}
-        m_TargetAssemblyTypeName: Scene_Transistions_Script, Assembly-CSharp
-        m_MethodName: TryAgain
+        m_TargetAssemblyTypeName: Main_Menu, Assembly-CSharp
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

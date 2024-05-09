@@ -1,4 +1,4 @@
-INCLUDE globals.ink
+
 
 
 VAR Character = ""
@@ -20,6 +20,6 @@ Brother I wont let you down! #JoinParty:Red_Cowboy #PartyMember:Red_Guy #speaker
 -> END
 
 === NPC_1_result_2 ===
-~CanJoinParty = 0
+
 Well maybe next time :( #speaker:Red Cowboy #portrait:Red_Cowboy #audio:Red_Cowboy
 -> END

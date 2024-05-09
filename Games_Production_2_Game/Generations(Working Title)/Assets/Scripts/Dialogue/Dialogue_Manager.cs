@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
-using Ink.UnityIntegration;
 
 public class Dialogue_Manager : MonoBehaviour
 {
@@ -18,8 +17,6 @@ public class Dialogue_Manager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float typingSpeed = 0.04f;
 
-    [Header("Globals Ink File")]
-    [SerializeField] private InkFile globalsInkFile;
 
 
     [Header("Audio")]
@@ -50,7 +47,6 @@ public class Dialogue_Manager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string AUDIO_TAG = "audio";
     private const string PARTY_TAG = "JoinParty";
-    private Dialogue_Variables dialogueVariables;
     private void Awake()
     {
        if (instance != null)
@@ -74,7 +70,6 @@ public class Dialogue_Manager : MonoBehaviour
             followAI.FollowPlayer();
         }
 
-        dialogueVariables = new Dialogue_Variables(globalsInkFile.filePath);
     }
 
     public static Dialogue_Manager GetInstance()
@@ -229,7 +224,6 @@ public class Dialogue_Manager : MonoBehaviour
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
 
-        dialogueVariables.StartListening(currentStory);
         // reset portrait, layout and speaker
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -244,7 +238,6 @@ public class Dialogue_Manager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
-        dialogueVariables.StopListening(currentStory);
 
         //go back to default audio
         SetCurrentAudioInfo(defaultAudioInfo.id);
@@ -359,19 +352,8 @@ public class Dialogue_Manager : MonoBehaviour
         }
     }
 
-    public Ink.Runtime.Object GetVariableState(string variableName)
-    {
-        Ink.Runtime.Object variableValue = null;
-        dialogueVariables.variables.TryGetValue(variableName, out variableValue);
+  
 
-        if(variableValue = null)
-        {
-            Debug.LogWarning("Ink Variable was found to be null: " + variableName);
-
-        }
-
-        return variableValue;
-    }
 
        
 }

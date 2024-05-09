@@ -16,8 +16,6 @@ public class PlayerMovement_Script : MonoBehaviour
     [SerializeField] private GameObject Map;
     public KeyCode interact;
     public KeyCode Submit;
-    [SerializeField] ParticleSystem walkingParticleRightSide;
-    [SerializeField] ParticleSystem walkingParticleLeftSide;
 
     [Header("Bools")]
     private bool MapOpen;
@@ -69,17 +67,6 @@ public class PlayerMovement_Script : MonoBehaviour
             float angle = Mathf.Sin(Time.time * rotationSpeed) * 8;
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            walkingParticleLeftSide.Play();
-
-            if(angle == transform.rotation.z)
-            {
-                walkingParticleRightSide.Play();
-            }
-
-            else if(angle == -rotationSpeed)
-            {
-                walkingParticleLeftSide.Play();
-            }
         }
 
         if(Dialogue_Manager.GetInstance().dialogueIsPlaying)

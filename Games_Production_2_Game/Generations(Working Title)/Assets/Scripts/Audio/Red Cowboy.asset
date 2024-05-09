@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Red_Cowboy
   dialogueTypingSoundClips:
-  - {fileID: 8300000, guid: 21ee5b63c9585e24c9f3675d9bd90a18, type: 3}
+  - {fileID: 8300000, guid: 206b6ce11af7b474384426a0a7a0704d, type: 3}
   frequencyLevel: 2
   minPitch: 3
   maxPitch: 3

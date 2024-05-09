@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Mage
   dialogueTypingSoundClips:
-  - {fileID: 8300000, guid: 21ee5b63c9585e24c9f3675d9bd90a18, type: 3}
+  - {fileID: 8300000, guid: a44afcc586ac25e4eaf07fd651c50e2f, type: 3}
   frequencyLevel: 2
   minPitch: -0.61
   maxPitch: 1.12

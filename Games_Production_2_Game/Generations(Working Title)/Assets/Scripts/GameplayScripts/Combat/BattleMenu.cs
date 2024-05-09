@@ -25,6 +25,7 @@ public class BattleMenu : MonoBehaviour
     public EnemyData selectedEnemy;
     public TechData selectedTech;
     public ItemData selectedItem;
+    public Animator currentAnimator, targetAnimator;
 
     public PartyManager party;
     public EncounterManager encounter;
@@ -43,6 +44,10 @@ public class BattleMenu : MonoBehaviour
     {
         currentChar = party.tempMembers[charNo];
         Debug.Log(currentChar.characterName);
+        boostSlider.maxValue = (currentChar.level*5);
+        boostSlider.value = (currentChar.boost);
+        currentAnimator = currentChar.gameObject.GetComponent<Animator>();
+        currentAnimator.SetBool("Active", true);
 
         for(int i = 0; i < currentChar.techs.Count; i++)
         {
@@ -136,11 +141,11 @@ public class BattleMenu : MonoBehaviour
         
         if(augment <= 0)
         {
-            battle.text.text = currentChar.characterName + " decreases " + targetName + "'s " + stat + " by " + augment.ToString();
+            battle.text.text = currentChar.characterName + " decreases " + targetName + "'s " + stat + " by " + (augment*-1).ToString();
         }
         else
         {
-            battle.text.text = currentChar.characterName + " increases " + targetName + "'s " + stat + " by " + augment.ToString();
+            battle.text.text = currentChar.characterName + " increases " + targetName + "'s " + stat + " by " + (augment*-1).ToString();
         }
         
         yield return new WaitForSeconds(time);
@@ -336,6 +341,8 @@ public class BattleMenu : MonoBehaviour
         battle.textBox.SetActive(false);
         currentChar.BP -= currentChar.boost;
         currentChar.boost = 0;
+        currentAnimator.SetBool("Active", false);
+        currentAnimator = null;
 
         for(int i = 0; i < currentChar.techs.Count; i++)
         {
@@ -510,6 +517,9 @@ public class BattleMenu : MonoBehaviour
 
     public IEnumerator OffensiveTech(TechData tech, EnemyData enemy)
     {
+        targetAnimator = enemy.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Harmed");
+
         switch (tech.effect)
         {
             case "Debuff":
@@ -812,6 +822,9 @@ public class BattleMenu : MonoBehaviour
 
     public IEnumerator DefensiveTech(TechData tech, CharacterData ally)
     {
+        targetAnimator = ally.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Helped");
+
         switch (tech.effect)
         {
             case "Buff":
@@ -1193,6 +1206,9 @@ public class BattleMenu : MonoBehaviour
 
     public IEnumerator OffensiveSubtech(TechData tech, EnemyData enemy, int sub)
     {
+        targetAnimator = enemy.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Harmed");
+
         switch (tech.subeffect)
         {
             case "Debuff":
@@ -1443,6 +1459,9 @@ public class BattleMenu : MonoBehaviour
 
     public IEnumerator DefensiveSubtech(TechData tech, CharacterData ally, int sub)
     {
+        targetAnimator = ally.gameObject.GetComponent<Animator>();
+        targetAnimator.SetTrigger("Helped");
+
         switch (tech.subeffect)
         {
             case "Buff":
@@ -1667,16 +1686,20 @@ public class BattleMenu : MonoBehaviour
 
         if(currentChar)
         {
+            //currentChar.boost = Mathf.RoundToInt(boostSlider.value);
+
             boostMenu.SetActive(true);
 
             if(currentChar.BP < currentChar.level * 5)
             {
-                boostText.text = currentChar.boost.ToString() + " / " + currentChar.maxBP;
+                boostText.text = currentChar.boost.ToString() + " / " + currentChar.BP;
+                boostSlider.value = currentChar.boost;
             }
             else
             {
                 int boostNo = currentChar.level * 5;
                 boostText.text = currentChar.boost.ToString() + " / " + boostNo.ToString();
+                boostSlider.value = currentChar.boost;
             }
         }
         else

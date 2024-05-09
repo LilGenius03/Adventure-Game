@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4613982913281044399}
   - component: {fileID: 7691876655375369457}
   - component: {fileID: 1298628489814661507}
+  - component: {fileID: 4998397964202618709}
   m_Layer: 0
   m_Name: Merlin
   m_TagString: Untagged
@@ -75,9 +76,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60f131da346dd21459a5043adb91a3b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -114,6 +115,7 @@ MonoBehaviour:
   HP: 0
   XP: 0
   boost: 0
+  sub: 0
   primaryJob: {fileID: 11400000, guid: 5a4d75f2604d29f408653101ae38974d, type: 2}
   secondaryJob: {fileID: 0}
   weaponSlot: {fileID: 1715318774271979951, guid: 4992a1c1d370ea74c8d62d2e67c27ccc, type: 3}
@@ -125,7 +127,7 @@ MonoBehaviour:
   summon: {fileID: 0}
   summonPos: {fileID: 0}
   overworldSprite: {fileID: 0}
-  battleSprite: {fileID: 0}
+  battleSprite: {fileID: 21300000, guid: 60f131da346dd21459a5043adb91a3b5, type: 3}
   spriteRenderer: {fileID: 4613982913281044399}
   battle: 1
   proficiency: []
@@ -147,3 +149,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedStat: 0
   initiative: 0
+--- !u!95 &4998397964202618709
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330730153828311468}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: abee7fce7fd0c0a44a190e695bd46f3a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

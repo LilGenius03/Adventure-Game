@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3890425983070678049}
   - component: {fileID: 1715318774271979951}
   m_Layer: 0
-  m_Name: Staff
+  m_Name: Scythe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,6 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c1753b581fb3d4ba89cf1c39350065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: fef104fe1ee7b5d43911fa8872ab37c7, type: 2}
-  type: Staff
+  data: {fileID: 11400000, guid: 08a3f508622f44f429524b027241cd02, type: 2}
+  type: Sword
   equipped: 0

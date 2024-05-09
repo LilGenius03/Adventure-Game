@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 188342450772898061}
   - component: {fileID: 838528816121147566}
   - component: {fileID: 1234374503155176354}
+  - component: {fileID: 8512049583348488502}
   m_Layer: 0
   m_Name: Mordred
   m_TagString: Untagged
@@ -75,9 +76,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: adf17c133c5dc3848b3217973c96eda9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -114,7 +115,6 @@ MonoBehaviour:
   boost: 0
   sub: 0
   proficiency:
-  - Staff
   - Scythe
   resistance: []
   vulnerability: []
@@ -127,7 +127,7 @@ MonoBehaviour:
   rarity: []
   coins: 0
   combattantScript: {fileID: 1234374503155176354}
-  battleSprite: {fileID: 0}
+  battleSprite: {fileID: 21300000, guid: adf17c133c5dc3848b3217973c96eda9, type: 3}
   spriteRenderer: {fileID: 188342450772898061}
   summon: {fileID: 0}
   summonPos: {fileID: 0}
@@ -145,3 +145,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedStat: 0
   initiative: 0
+--- !u!95 &8512049583348488502
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516649846006402445}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b7351ffb50f77e4a8bc49f71f782c8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

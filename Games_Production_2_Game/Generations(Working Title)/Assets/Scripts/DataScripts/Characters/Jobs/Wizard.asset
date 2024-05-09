@@ -18,6 +18,7 @@ MonoBehaviour:
   proficiency:
   - Dagger
   - Staff
+  - Book
   resistance:
   - Fire
   - Ice

@@ -15,8 +15,8 @@ public class BattleManager : MonoBehaviour
     public EnemyHandler enemyHandler;
     public Transform[] characterPos;
     public Transform[] enemyPos;
-    public GameObject textBox;
-    public TMP_Text text;
+    public GameObject textBox, infoBox;
+    public TMP_Text text, info;
 
     //public static BattleManager battle;
     public BattleMenu battleMenu;
@@ -162,13 +162,16 @@ public class BattleManager : MonoBehaviour
             {
                 if(character == party.tempMembers[charNo])
                 {
+                    
                     battleMenu.CharacterTurn(charNo);
+                    info.text = party.tempMembers[charNo].characterName + "'s Turn";
                     matched = true;
                 }
                 else if(charNo >= party.tempMembers.Count)
                 {
                     charNo = 0;
                     nextTurn = true;
+                    matched = true;
                     return;
                 }
                 else
@@ -197,6 +200,7 @@ public class BattleManager : MonoBehaviour
                 if(enemy == encounter.tempEnemies[charNo])
                 {
                     enemyHandler.EnemyTurn(charNo);
+                    info.text = encounter.tempEnemies[charNo].enemyName + "'s Turn";
                     matched = true;
                 }
                 else if(charNo >= encounter.tempEnemies.Count)
@@ -211,6 +215,10 @@ public class BattleManager : MonoBehaviour
                 }
 
             } while(!matched);
+        }
+        else
+        {
+            nextTurn = true;
         }
 
         //nextTurn = true;

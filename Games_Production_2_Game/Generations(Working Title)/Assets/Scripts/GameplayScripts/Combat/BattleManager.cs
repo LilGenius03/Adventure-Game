@@ -63,6 +63,22 @@ public class BattleManager : MonoBehaviour
     {
         if(nextTurn)
         {
+            bool lost = true;
+
+            foreach(CharacterData character in party.tempMembers)
+            {
+                if(character.HP > 0)
+                {
+                    lost = false;
+                    //Debug.Log(won);
+                }
+            }
+
+            if(lost)
+            {
+                LoseEncounter();
+            }
+            
             bool won = true;
 
             foreach(EnemyData enemy in encounter.tempEnemies)
@@ -224,9 +240,14 @@ public class BattleManager : MonoBehaviour
         //nextTurn = true;
     }
 
+    void LoseEncounter()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     void WinEncounter()
     {
-        SceneManager.LoadScene(GameDataManager.instance.progress.currentScene);
+        SceneManager.LoadScene(3);
 
         foreach(EnemyData enemy in encounter.enemies)
         {

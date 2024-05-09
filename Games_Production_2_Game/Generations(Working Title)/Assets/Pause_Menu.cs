@@ -10,6 +10,7 @@ public class Pause_Menu : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private AudioSource pauseMusic;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private GameObject DialogueCanvas;
 
@@ -22,6 +23,7 @@ public class Pause_Menu : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
+        pauseMusic.Play();
         DialogueCanvas.SetActive(false);
     }
 
@@ -29,6 +31,7 @@ public class Pause_Menu : MonoBehaviour
    {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+        pauseMusic.Stop();
         DialogueCanvas.SetActive(true);
     }
 
@@ -36,6 +39,7 @@ public class Pause_Menu : MonoBehaviour
     {
         SceneManager.LoadScene("KieronDataTestScene");
         Time.timeScale = 1f;
+        pauseMusic.Stop();
     }
 
     public void Options()
@@ -58,6 +62,7 @@ public class Pause_Menu : MonoBehaviour
         pauseMenu.SetActive(false);
         DialogueCanvas.SetActive(true);
         Time.timeScale = 1f;
+        pauseMusic.Stop();
     }
 
 }
